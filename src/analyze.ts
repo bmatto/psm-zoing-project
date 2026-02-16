@@ -26,6 +26,7 @@
 import { resolve } from 'path';
 import { loadParcels } from './parsers/csv-parser.js';
 import { EnrichmentPipeline } from './pipeline/enrichment.js';
+import { writeAllOutputs } from './output/writer.js';
 
 /**
  * Main analysis function
@@ -225,15 +226,30 @@ async function main(): Promise<void> {
   // - errors: Array of failed parcels with error details
   // - summary: Statistics about the enrichment process
   //
-  // These will be written to files in US-009 (next story).
-  // For now, we just report the results to console.
+  // We write three output files:
+  // 1. portsmouth_properties_full.json - Enriched parcel data
+  // 2. enrichment_errors.json - Error report with grouping by type/stage
+  // 3. analysis_summary.json - Statistics and metadata
+  //
+  // All files include timestamps for tracking when data was collected.
+  // The output count (successful + failed) is validated to match input count.
+
+  console.log('\nStage 5: Writing output files...');
+
+  try {
+    writeAllOutputs(enrichedParcels, errors, summary);
+  } catch (error) {
+    console.error('\n✗ Failed to write output files:');
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  }
 
   console.log('\n======================================================');
   console.log('Portsmouth Zoning Analysis - Complete');
   console.log('======================================================\n');
 
   console.log('Results Summary:');
-  console.log(`  Total parcels:       ${summary.total_parcels}`);
+  console.log(`  Total parcels:         ${summary.total_parcels}`);
   console.log(`  Successfully enriched: ${summary.successful_enrichments}`);
   console.log(`  Failed enrichments:    ${summary.failed_enrichments}`);
   console.log(`  Processing time:       ${(summary.processing_time_ms / 1000).toFixed(2)}s`);
@@ -247,10 +263,8 @@ async function main(): Promise<void> {
   if (exitCode === 0) {
     console.log('✓ All parcels successfully enriched!');
   } else {
-    console.log('⚠️  Some parcels failed enrichment. Review error logs above.');
+    console.log('⚠️  Some parcels failed enrichment. Review error logs in output/enrichment_errors.json');
   }
-
-  console.log('\nNote: File output will be implemented in US-009');
 
   process.exit(exitCode);
 }
