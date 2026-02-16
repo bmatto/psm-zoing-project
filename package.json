@@ -1,0 +1,33 @@
+{
+  "name": "portsmouth-zoning-analysis",
+  "version": "1.0.0",
+  "description": "Portsmouth Zoning Analysis - TypeScript implementation with comprehensive data collection and validation",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "analyze": "tsx src/analyze.ts",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "zoning",
+    "analysis",
+    "portsmouth",
+    "parcel-data"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "@vitest/ui": "^1.2.2",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  },
+  "dependencies": {
+    "csv-parse": "^5.5.3"
+  }
+}
