@@ -1,0 +1,108 @@
+Subject: Data-Driven Analysis of Portsmouth's Residential Zoning and Housing Capacity
+
+Dear Mayor McEachern, Assistant Mayor Trace, and Members of the City Council,
+
+I hope this message finds you well. As a member of the School Board and having served on the Mayor's Blue Ribbon Committee for Affordable Housing, I'm writing to share an analysis that I believe warrants serious consideration as we continue addressing Portsmouth's housing challenges.
+
+THE CURRENT APPROACH
+
+The recommendations from the Affordable Housing Committee have primarily focused on two strategies:
+1. Developer incentives – leveraging our existing zoning constraints and offering to soften those constraints in exchange for affordable units or in-lieu payments
+2. City-owned property partnerships – working with the Portsmouth Housing Authority and organizations like POAH to develop municipally-owned land
+
+While these are valuable and important pieces of our overall housing strategy, they fundamentally ignore what the data shows is the elephant in the room: the 2,276 acres of residential land zoned exclusively for single-family homes.
+
+THE DATA
+
+Using property data pulled directly from the New Hampshire State GIS database, I've conducted a comprehensive analysis of Portsmouth's zoning landscape. The findings are striking:
+
+LAND ALLOCATION DISPARITY
+• Single-family ONLY zones (R, SRA, SRB): 2,276 acres (85.8% of residential land)
+• Multi-family ALLOWED zones (GRA, GRB, GRC): 375 acres (14.2% of residential land)
+
+We have dedicated six times more residential land to single-family-only development than to zones that permit the housing types most residents can actually afford.
+
+FISCAL IMPACT
+The revenue density comparison is stark:
+• Single-family only zones: $1,033,384/acre
+• Multi-family allowed zones: $5,904,630/acre
+
+Multi-family zones generate 5.71 times more tax revenue per acre while accommodating 4.37 times more housing units per acre. From a pure fiscal sustainability standpoint, our current zoning is actively working against the city's financial health.
+
+INFRASTRUCTURE BURDEN
+The analysis reveals that single-family zones require:
+• 1.15x MORE linear infrastructure per parcel (roads, utilities, etc.)
+• Estimated infrastructure cost: $51,721 per parcel vs. $44,976 for multi-family
+• Fiscal sustainability ratio: 15.9 for single-family vs. 23.9 for multi-family
+
+In practical terms, our lower-density zones are more expensive to serve per household while generating less tax revenue. Multi-family zones effectively subsidize the infrastructure costs for sprawling single-family neighborhoods.
+
+THE COMPLIANCE CRISIS
+Perhaps most concerning: 69.9% of parcels in single-family zones are OUT OF COMPLIANCE with current zoning requirements:
+• 1,783 parcels have lots smaller than the minimum size requirements
+• 435 parcels have incompatible land uses
+• R zone: 85.4% violation rate
+• SRA zone: 50.5% violation rate
+• SRB zone: 71.8% violation rate
+
+We are sitting on thousands of legal non-conforming properties that cannot be reasonably rebuilt, expanded, or modified without seeking variances. This creates a de facto freeze on housing evolution in the majority of our residential neighborhoods.
+
+PROPOSED PATH FORWARD
+
+Rather than continuing to focus exclusively on developer incentives and city-owned parcels, I propose we consider zoning reforms for our three largest residential zones:
+
+1. RESIDENTIAL (R) ZONE - 498 acres
+   Current: 217,800 sf minimum (5 acres), single-family only
+   Proposal: Reduce to 1-acre minimums, allow two-family homes by right
+   Expected impact: Increase from 41 parcels to potential 250+ housing units
+
+2. SINGLE RESIDENCE A (SRA) - 589 acres
+   Current: 43,560 sf minimum (1 acre), single-family only
+   Proposal: Reduce to 15,000 sf minimums, allow two-family and small multi-family
+   Expected impact: Increase density 3x while maintaining neighborhood character
+
+3. SINGLE RESIDENCE B (SRB) - 1,189 acres
+   Current: 15,000 sf minimum, single-family only
+   Proposal: Reduce to 7,500 sf minimums, allow two-family by right, multi-family by special exception
+   Expected impact: Bring 1,672 undersized parcels into compliance, double housing capacity
+
+These changes would:
+• Bring thousands of non-conforming parcels into compliance
+• Increase tax revenue density across our largest residential zones
+• Reduce per-household infrastructure costs
+• Create hundreds of new housing opportunities without requiring city investment
+• Improve fiscal sustainability for essential city services
+
+THE OPPORTUNITY COST
+
+Every year we maintain zoning that dedicates 85.8% of residential land to single-family-only development is a year we:
+• Force housing demand into the 14.2% of land that allows multi-family
+• Increase pressure on our already tight housing market
+• Make our city less accessible to teachers, municipal workers, young families, and service workers
+• Reduce our ability to fund schools, infrastructure, and city services
+
+MOVING FORWARD
+
+I would welcome the opportunity to present this analysis to the full Council and Planning Board. The data is comprehensive, drawn directly from state sources, and paints a clear picture: our largest opportunity for addressing housing capacity and fiscal sustainability lies in reforming the zones we've largely avoided discussing.
+
+Developer incentives and city partnerships are valuable tools, but they're treating symptoms while ignoring the underlying cause. We have 2,276 acres of residential land that is fundamentally mis-zoned for the city Portsmouth has become and the future we're trying to build.
+
+I'm happy to share the complete analysis, methodology, and supporting data files at your convenience.
+
+Respectfully,
+
+[Your Name]
+Portsmouth School Board Member
+Former Member, Mayor's Blue Ribbon Committee for Affordable Housing
+
+---
+
+ATTACHED ANALYSIS FILES:
+• Portsmouth_Zoning_Report_CORRECTED_20251222_143225.txt
+• Portsmouth_Residential_Comparison_20251222_143940.txt
+• Portsmouth_Infrastructure_Burden_20251222_144526.txt
+• portsmouth_violations_CORRECTED_20251222_142947.txt
+
+Data Source: NH State GIS Database (Portsmouth property records)
+Analysis Date: December 22, 2024
+Total Properties Analyzed: 6,270 parcels across 6,654 acres

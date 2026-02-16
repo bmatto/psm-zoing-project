@@ -1,0 +1,255 @@
+================================================================================
+PORTSMOUTH INFRASTRUCTURE BURDEN & FISCAL SUSTAINABILITY ANALYSIS
+================================================================================
+
+This analysis examines the relationship between zoning density, tax revenue,
+and estimated municipal service costs.
+
+KEY CONCEPT: Lower-density zones require MORE infrastructure per household
+(roads, utilities, emergency services) but generate LESS tax revenue per acre.
+
+================================================================================
+RESIDENTIAL ZONE INFRASTRUCTURE ANALYSIS
+================================================================================
+
+R - Residential
+────────────────────────────────────────────────────────────────────────────────
+
+Basic Metrics:
+  Total Land: 498 acres
+  Total Parcels: 41
+  Average Lot Size: 529,350 sf (12.15 acres)
+  Density: 0.08 parcels/acre
+
+Minimum Requirements:
+  Minimum Lot Size: 217,800 sf
+  Minimum Frontage: Not specified
+
+Tax Revenue:
+  Revenue per Parcel: $1,262,822
+  Revenue per Acre: $103,917
+  Total Zone Revenue: $51,775,705
+
+SRA - Single Residence A
+────────────────────────────────────────────────────────────────────────────────
+
+Basic Metrics:
+  Total Land: 589 acres
+  Total Parcels: 279
+  Average Lot Size: 91,932 sf (2.11 acres)
+  Density: 0.47 parcels/acre
+
+Minimum Requirements:
+  Minimum Lot Size: 43,560 sf
+  Minimum Frontage: 150 feet
+
+Tax Revenue:
+  Revenue per Parcel: $1,215,075
+  Revenue per Acre: $575,738
+  Total Zone Revenue: $339,006,059
+
+Estimated Infrastructure Burden:
+  Linear Infrastructure per Parcel: 150 feet
+  Total Linear Infrastructure: 41,850 feet
+  Est. Infrastructure Cost/Parcel: $75,000
+    (Based on $500/linear foot for roads + utilities)
+
+Fiscal Sustainability:
+  Fiscal Ratio: 16.20
+    (Revenue per parcel ÷ Infrastructure cost per parcel)
+    ⚠ LOW - High infrastructure burden relative to revenue
+
+SRB - Single Residence B
+────────────────────────────────────────────────────────────────────────────────
+
+Basic Metrics:
+  Total Land: 1,189 acres
+  Total Parcels: 2,541
+  Average Lot Size: 20,386 sf (0.47 acres)
+  Density: 2.14 parcels/acre
+
+Minimum Requirements:
+  Minimum Lot Size: 15,000 sf
+  Minimum Frontage: 100 feet
+
+Tax Revenue:
+  Revenue per Parcel: $771,911
+  Revenue per Acre: $1,649,422
+  Total Zone Revenue: $1,961,426,671
+
+Estimated Infrastructure Burden:
+  Linear Infrastructure per Parcel: 100 feet
+  Total Linear Infrastructure: 254,100 feet
+  Est. Infrastructure Cost/Parcel: $50,000
+    (Based on $500/linear foot for roads + utilities)
+
+Fiscal Sustainability:
+  Fiscal Ratio: 15.44
+    (Revenue per parcel ÷ Infrastructure cost per parcel)
+    ⚠ LOW - High infrastructure burden relative to revenue
+
+GRA - General Residence A
+────────────────────────────────────────────────────────────────────────────────
+
+Basic Metrics:
+  Total Land: 231 acres
+  Total Parcels: 1,188
+  Average Lot Size: 8,475 sf (0.20 acres)
+  Density: 5.14 parcels/acre
+
+Minimum Requirements:
+  Minimum Lot Size: 7,500 sf
+  Minimum Frontage: 100 feet
+
+Tax Revenue:
+  Revenue per Parcel: $1,117,738
+  Revenue per Acre: $5,744,887
+  Total Zone Revenue: $1,327,873,110
+
+Estimated Infrastructure Burden:
+  Linear Infrastructure per Parcel: 100 feet
+  Total Linear Infrastructure: 118,800 feet
+  Est. Infrastructure Cost/Parcel: $50,000
+    (Based on $500/linear foot for roads + utilities)
+
+Fiscal Sustainability:
+  Fiscal Ratio: 22.35
+    (Revenue per parcel ÷ Infrastructure cost per parcel)
+    ⚡ MODERATE - Balanced infrastructure vs revenue
+
+GRB - General Residence B
+────────────────────────────────────────────────────────────────────────────────
+
+Basic Metrics:
+  Total Land: 111 acres
+  Total Parcels: 550
+  Average Lot Size: 8,798 sf (0.20 acres)
+  Density: 4.95 parcels/acre
+
+Minimum Requirements:
+  Minimum Lot Size: 5,000 sf
+  Minimum Frontage: 80 feet
+
+Tax Revenue:
+  Revenue per Parcel: $1,024,803
+  Revenue per Acre: $5,073,739
+  Total Zone Revenue: $563,641,626
+
+Estimated Infrastructure Burden:
+  Linear Infrastructure per Parcel: 80 feet
+  Total Linear Infrastructure: 44,000 feet
+  Est. Infrastructure Cost/Parcel: $40,000
+    (Based on $500/linear foot for roads + utilities)
+
+Fiscal Sustainability:
+  Fiscal Ratio: 25.62
+    (Revenue per parcel ÷ Infrastructure cost per parcel)
+    ⚡ MODERATE - Balanced infrastructure vs revenue
+
+GRC - General Residence C
+────────────────────────────────────────────────────────────────────────────────
+
+Basic Metrics:
+  Total Land: 33 acres
+  Total Parcels: 324
+  Average Lot Size: 4,472 sf (0.10 acres)
+  Density: 9.74 parcels/acre
+
+Minimum Requirements:
+  Minimum Lot Size: 3,500 sf
+  Minimum Frontage: 70 feet
+
+Tax Revenue:
+  Revenue per Parcel: $1,004,984
+  Revenue per Acre: $9,789,980
+  Total Zone Revenue: $325,614,740
+
+Estimated Infrastructure Burden:
+  Linear Infrastructure per Parcel: 70 feet
+  Total Linear Infrastructure: 22,680 feet
+  Est. Infrastructure Cost/Parcel: $35,000
+    (Based on $500/linear foot for roads + utilities)
+
+Fiscal Sustainability:
+  Fiscal Ratio: 28.71
+    (Revenue per parcel ÷ Infrastructure cost per parcel)
+    ⚡ MODERATE - Balanced infrastructure vs revenue
+
+================================================================================
+COMPARATIVE ANALYSIS: SINGLE-FAMILY vs MULTI-FAMILY ZONES
+================================================================================
+
+SINGLE-FAMILY ONLY ZONES (R, SRA, SRB):
+  Revenue per Parcel: $822,163
+  Revenue per Acre: $1,033,384
+  Infrastructure per Parcel: 103 linear feet
+  Est. Infrastructure Cost per Parcel: $51,721
+  Fiscal Sustainability Ratio: 15.90
+
+MULTI-FAMILY ALLOWED ZONES (GRA, GRB, GRC):
+  Revenue per Parcel: $1,075,233
+  Revenue per Acre: $5,904,630
+  Infrastructure per Parcel: 90 linear feet
+  Est. Infrastructure Cost per Parcel: $44,976
+  Fiscal Sustainability Ratio: 23.91
+
+────────────────────────────────────────────────────────────────────────────────
+DIRECT COMPARISON:
+────────────────────────────────────────────────────────────────────────────────
+
+• Single-family homes require 1.15x MORE linear infrastructure per parcel
+• Multi-family zones are 1.50x MORE fiscally sustainable
+• Multi-family generates $5,904,630/acre vs $1,033,384/acre
+
+Net Fiscal Impact (Revenue - Infrastructure Cost):
+  Single-family: $770,442 per parcel
+  Multi-family: $1,030,257 per parcel
+
+================================================================================
+KEY FINDINGS
+================================================================================
+
+1. INFRASTRUCTURE BURDEN:
+   Single-family zones require 295,950 feet of roads/utilities
+   Multi-family zones require 185,480 feet of roads/utilities
+   Single-family zones need 1.1x more infrastructure per household
+
+2. FISCAL EFFICIENCY:
+   Single-family fiscal ratio: 15.9 (revenue/cost)
+   Multi-family fiscal ratio: 23.9 (revenue/cost)
+   Multi-family zones are 1.5x more fiscally sustainable
+
+3. TAX BURDEN EQUITY:
+   Despite higher property values, single-family homeowners in large-lot zones
+   impose higher infrastructure costs per capita on the municipality.
+   The sprawling nature of low-density development means:
+   - More road miles to maintain per household
+   - Longer utility lines per household
+   - Greater distances for emergency services
+   - Lower tax revenue per acre of land
+
+4. IMPLICATIONS:
+   Residents in SRA zones (1 acre minimums) may contribute less in taxes
+   relative to the municipal services their large lots demand.
+   Multi-family zones effectively subsidize infrastructure costs for
+   lower-density single-family neighborhoods.
+
+================================================================================
+METHODOLOGY NOTES
+================================================================================
+
+Infrastructure cost estimates based on:
+• Minimum lot frontage requirements (linear feet per parcel)
+• $500/linear foot for combined road + utility infrastructure
+• Does not include: water/sewer capacity, school buses, trash collection
+• Actual costs vary based on terrain, existing infrastructure, etc.
+
+Fiscal Sustainability Ratio = Property Tax Revenue ÷ Infrastructure Cost
+• Higher ratio = more revenue per dollar of infrastructure
+• <20 = concerning fiscal burden
+• 20-50 = moderate sustainability
+• >50 = strong fiscal contributor
+
+================================================================================
+END OF ANALYSIS
+================================================================================
