@@ -47,9 +47,22 @@ function getReadableTimestamp(): string {
 }
 
 /**
+ * Parse CLI arguments
+ */
+function parseCliArgs(): { infrastructureOnly: boolean; violationsOnly: boolean } {
+  const args = process.argv.slice(2);
+  return {
+    infrastructureOnly: args.includes('--infrastructure-only'),
+    violationsOnly: args.includes('--violations-only')
+  };
+}
+
+/**
  * Main report generation function
  */
 async function generateReports() {
+  const { infrastructureOnly, violationsOnly } = parseCliArgs();
+
   console.log('Portsmouth Zoning Analysis - Report Generation');
   console.log('='.repeat(60));
   console.log('');
@@ -93,6 +106,117 @@ async function generateReports() {
   const timestamp = getTimestamp();
   const readableTimestamp = getReadableTimestamp();
 
+  const generatedFiles: string[] = [];
+
+  // Infrastructure-only mode
+  if (infrastructureOnly) {
+    console.log('Mode: Infrastructure burden report only');
+    console.log('');
+
+    // Calculate infrastructure burden
+    console.log('Calculating infrastructure burden...');
+    const infrastructureMetrics = calculateInfrastructureMetrics(validParcels, ZONING_RULES);
+    const infraZoneCount = Object.keys(infrastructureMetrics.zones).length;
+    console.log(`✓ Calculated infrastructure metrics for ${infraZoneCount} zones`);
+    console.log('');
+
+    // Generate infrastructure report
+    console.log('Generating infrastructure burden report...');
+    const infrastructureReport = generateInfrastructureReport(
+      infrastructureMetrics,
+      readableTimestamp
+    );
+    const infrastructureReportPath = `${OUTPUT_DIR}/Portsmouth_Infrastructure_Burden_${timestamp}.txt`;
+    await writeFile(infrastructureReportPath, infrastructureReport, 'utf-8');
+    console.log(`✓ Written: ${infrastructureReportPath}`);
+    console.log('');
+    generatedFiles.push(infrastructureReportPath);
+
+    // Write infrastructure JSON
+    const infrastructureJsonPath = `${OUTPUT_DIR}/infrastructure_metrics.json`;
+    await writeFile(infrastructureJsonPath, JSON.stringify(infrastructureMetrics, null, 2), 'utf-8');
+    console.log(`✓ Written: ${infrastructureJsonPath}`);
+    console.log('');
+    generatedFiles.push(infrastructureJsonPath);
+
+    // Summary
+    console.log('='.repeat(60));
+    console.log('Report Generation Complete');
+    console.log('='.repeat(60));
+    console.log('');
+    console.log('Generated Reports:');
+    generatedFiles.forEach(file => console.log(`  • ${file}`));
+    console.log('');
+    console.log('Summary Statistics:');
+    console.log(`  • Total parcels analyzed: ${validParcels.length.toLocaleString()}`);
+    console.log(`  • Parcels skipped: ${skippedCount.toLocaleString()}`);
+    console.log(`  • Zones analyzed: ${infraZoneCount}`);
+    console.log('');
+    return;
+  }
+
+  // Violations-only mode
+  if (violationsOnly) {
+    console.log('Mode: Violations report only');
+    console.log('');
+
+    // Calculate zone metrics (needed for comprehensive report)
+    console.log('Calculating zone metrics...');
+    const zoneMetrics = calculateZoneMetrics(validParcels);
+    const zoneCount = Object.keys(zoneMetrics.zones).length;
+    console.log(`✓ Calculated metrics for ${zoneCount} zones`);
+    console.log('');
+
+    // Analyze violations
+    console.log('Analyzing zoning violations...');
+    const violationsAnalysis = analyzeViolations(validParcels);
+    console.log(`✓ Found ${violationsAnalysis.total_violations.toLocaleString()} violations`);
+    console.log(`  ${violationsAnalysis.total_parcels_with_violations.toLocaleString()} parcels affected`);
+    console.log('');
+
+    // Generate comprehensive report
+    console.log('Generating comprehensive report...');
+    const comprehensiveReport = generateComprehensiveReport(
+      zoneMetrics,
+      violationsAnalysis,
+      validParcels.length,
+      readableTimestamp
+    );
+    const comprehensiveReportPath = `${OUTPUT_DIR}/Portsmouth_Zoning_Report_${timestamp}.txt`;
+    await writeFile(comprehensiveReportPath, comprehensiveReport, 'utf-8');
+    console.log(`✓ Written: ${comprehensiveReportPath}`);
+    console.log('');
+    generatedFiles.push(comprehensiveReportPath);
+
+    // Write violations JSON
+    const violationsJsonPath = `${OUTPUT_DIR}/violations_analysis.json`;
+    await writeFile(violationsJsonPath, JSON.stringify(violationsAnalysis, null, 2), 'utf-8');
+    console.log(`✓ Written: ${violationsJsonPath}`);
+    console.log('');
+    generatedFiles.push(violationsJsonPath);
+
+    // Summary
+    console.log('='.repeat(60));
+    console.log('Report Generation Complete');
+    console.log('='.repeat(60));
+    console.log('');
+    console.log('Generated Reports:');
+    generatedFiles.forEach(file => console.log(`  • ${file}`));
+    console.log('');
+    console.log('Summary Statistics:');
+    console.log(`  • Total parcels analyzed: ${validParcels.length.toLocaleString()}`);
+    console.log(`  • Parcels skipped: ${skippedCount.toLocaleString()}`);
+    console.log(`  • Zones analyzed: ${zoneCount}`);
+    console.log(`  • Total violations found: ${violationsAnalysis.total_violations.toLocaleString()}`);
+    console.log(`  • Parcels with violations: ${violationsAnalysis.total_parcels_with_violations.toLocaleString()}`);
+    console.log('');
+    return;
+  }
+
+  // Default: Generate all reports
+  console.log('Mode: All reports');
+  console.log('');
+
   // Calculate zone metrics
   console.log('Calculating zone metrics...');
   const zoneMetrics = calculateZoneMetrics(validParcels);
@@ -126,12 +250,14 @@ async function generateReports() {
   await writeFile(comprehensiveReportPath, comprehensiveReport, 'utf-8');
   console.log(`✓ Written: ${comprehensiveReportPath}`);
   console.log('');
+  generatedFiles.push(comprehensiveReportPath);
 
   // Write violations JSON
   const violationsJsonPath = `${OUTPUT_DIR}/violations_analysis.json`;
   await writeFile(violationsJsonPath, JSON.stringify(violationsAnalysis, null, 2), 'utf-8');
   console.log(`✓ Written: ${violationsJsonPath}`);
   console.log('');
+  generatedFiles.push(violationsJsonPath);
 
   // Generate infrastructure report
   console.log('Generating infrastructure burden report...');
@@ -143,12 +269,14 @@ async function generateReports() {
   await writeFile(infrastructureReportPath, infrastructureReport, 'utf-8');
   console.log(`✓ Written: ${infrastructureReportPath}`);
   console.log('');
+  generatedFiles.push(infrastructureReportPath);
 
   // Write infrastructure JSON
   const infrastructureJsonPath = `${OUTPUT_DIR}/infrastructure_metrics.json`;
   await writeFile(infrastructureJsonPath, JSON.stringify(infrastructureMetrics, null, 2), 'utf-8');
   console.log(`✓ Written: ${infrastructureJsonPath}`);
   console.log('');
+  generatedFiles.push(infrastructureJsonPath);
 
   // Summary
   console.log('='.repeat(60));
@@ -156,10 +284,7 @@ async function generateReports() {
   console.log('='.repeat(60));
   console.log('');
   console.log('Generated Reports:');
-  console.log(`  • ${comprehensiveReportPath}`);
-  console.log(`  • ${violationsJsonPath}`);
-  console.log(`  • ${infrastructureReportPath}`);
-  console.log(`  • ${infrastructureJsonPath}`);
+  generatedFiles.forEach(file => console.log(`  • ${file}`));
   console.log('');
   console.log('Summary Statistics:');
   console.log(`  • Total parcels analyzed: ${validParcels.length.toLocaleString()}`);

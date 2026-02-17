@@ -8,6 +8,9 @@
   },
   "scripts": {
     "analyze": "tsx src/analyze.ts",
+    "report": "tsx src/generate-reports.ts",
+    "report:infrastructure": "tsx src/generate-reports.ts --infrastructure-only",
+    "report:violations": "tsx src/generate-reports.ts --violations-only",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "typecheck": "tsc --noEmit"

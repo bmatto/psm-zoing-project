@@ -35,7 +35,7 @@ npm install
 ### Run Analysis
 
 ```bash
-npx tsx src/analyze.ts
+npm run analyze
 ```
 
 The analysis will:
@@ -44,6 +44,27 @@ The analysis will:
 - Enrich with VGSI API (building details)
 - Validate data quality
 - Write results to `output/` directory
+
+### Generate Reports
+
+After enriching the data, generate analysis reports:
+
+```bash
+# Generate all reports (comprehensive + infrastructure)
+npm run report
+
+# Generate infrastructure burden report only
+npm run report:infrastructure
+
+# Generate violations report only
+npm run report:violations
+```
+
+Reports are generated from the enriched data in `output/portsmouth_properties_full.json` without re-fetching from APIs. Generated files:
+- `Portsmouth_Zoning_Report_[timestamp].txt` - Comprehensive analysis with land distribution, revenue, and violations
+- `violations_analysis.json` - Structured violations data
+- `Portsmouth_Infrastructure_Burden_[timestamp].txt` - Infrastructure burden and fiscal sustainability analysis
+- `infrastructure_metrics.json` - Structured infrastructure metrics
 
 ### Run Tests
 
