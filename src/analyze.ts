@@ -52,10 +52,22 @@ async function main(): Promise<void> {
 
   const csvPath = resolve(process.cwd(), 'Portsmouth_Parcels.csv');
   let parcels;
+  let malformedRows;
 
   try {
-    parcels = loadParcels(csvPath);
-    console.log(`✓ Loaded ${parcels.length} parcels from CSV\n`);
+    const loadResult = loadParcels(csvPath);
+    parcels = loadResult.parcels;
+    malformedRows = loadResult.malformedRows;
+    console.log(`✓ Loaded ${parcels.length} valid parcels from CSV`);
+
+    // Report malformed rows but continue processing
+    if (malformedRows.length > 0) {
+      console.warn(
+        `⚠️  ${malformedRows.length} malformed rows detected and will be tracked in output\n`
+      );
+    } else {
+      console.log('');
+    }
   } catch (error) {
     console.error('✗ Failed to load parcel data:');
     console.error(error instanceof Error ? error.message : String(error));
@@ -65,34 +77,38 @@ async function main(): Promise<void> {
 
   // Validate we have parcels to process
   if (parcels.length === 0) {
-    console.error('✗ No parcels found in CSV file. Exiting.');
+    console.error('✗ No valid parcels found in CSV file.');
+    if (malformedRows.length > 0) {
+      console.error(
+        `All ${malformedRows.length} rows in the CSV were malformed. Check CSV format and required fields.`
+      );
+    }
+    console.error('Exiting.');
     process.exit(1);
   }
 
   // ========================================================================
   // STAGE 2: Configure Parallel Enrichment Pipeline
   // ========================================================================
-  // The enrichment pipeline fetches data from two external APIs:
+  // The enrichment pipeline fetches data from the Map Geo API:
   //
   // 1. Map Geo API - Geographic and property information
   //    - Zoning codes, land use classifications
   //    - Property values, ownership
-  //    - Account numbers (needed for VGSI lookups)
+  //    - Parcel area and location data
   //
-  // 2. VGSI API - Building details and assessments
-  //    - Building footprints, living area
-  //    - Detailed lot information
-  //    - Note: Not all parcels have VGSI data (vacant lots, etc.)
+  // Note: VGSI API integration (building details and assessments) is disabled
+  // and will be added in a future update.
   //
   // Configuration:
   // - batchSize: Number of concurrent API requests (higher = faster, but respect rate limits)
-  // - maxRequestsPerSecond: Rate limiting to avoid overwhelming APIs
+  // - maxRequestsPerSecond: Rate limiting to avoid overwhelming API
   // - maxRetries: Retry attempts for transient failures
 
   console.log('Stage 2: Configuring enrichment pipeline...');
 
   const pipeline = new EnrichmentPipeline({
-    batchSize: 5, // Process 5 parcels concurrently
+    batchSize: 20, // Process 20 parcels concurrently (matches Python performance)
     maxRequestsPerSecond: 10, // Respect API rate limits
     maxRetries: 3, // Retry transient failures
   });
@@ -108,22 +124,21 @@ async function main(): Promise<void> {
   //    - If this fails, the parcel cannot be enriched
   //    - Failure is logged but doesn't stop pipeline
   //
-  // 2. Fetch VGSI data (OPTIONAL)
-  //    - Only attempted if we have an account number from Map Geo
-  //    - Failures are warnings, not errors (vacant lots won't have this data)
-  //
-  // 3. Combine and validate
-  //    - Merge data from all sources
-  //    - Calculate derived fields (lot coverage, etc.)
+  // 2. Combine and validate
+  //    - Extract data from Map Geo API response
+  //    - Calculate derived fields (parcel area in acres, etc.)
   //    - Validate final data structure
   //
-  // 4. Track everything
+  // 3. Track everything
   //    - Successful enrichments → results array
   //    - Failed enrichments → errors array
   //    - Progress logged throughout
   //
   // CRITICAL: The pipeline never silently drops parcels. Every input parcel
   // is either successfully enriched OR has an error record explaining why it failed.
+  //
+  // Note: Building data (footprint, living area) from VGSI API is not currently
+  // integrated and will be added in a future update.
 
   console.log('Stage 3: Running parallel enrichment pipeline...');
 
@@ -159,24 +174,34 @@ async function main(): Promise<void> {
   console.log('\nStage 4: Validating results...');
 
   // Check 1: Count reconciliation
-  const totalInput = parcels.length;
-  const totalOutput = enrichedParcels.length + errors.length;
+  // Total input = valid parcels + malformed rows from CSV
+  const totalValidInput = parcels.length;
+  const totalMalformedInput = malformedRows.length;
+  const totalInput = totalValidInput + totalMalformedInput;
+  const totalOutput = enrichedParcels.length + errors.length + totalMalformedInput;
+
+  console.log(`Input summary:`);
+  console.log(`  Valid CSV rows:      ${totalValidInput}`);
+  console.log(`  Malformed CSV rows:  ${totalMalformedInput}`);
+  console.log(`  Total input rows:    ${totalInput}`);
 
   if (totalOutput !== totalInput) {
     console.error(`\n⚠️  CRITICAL: Parcel count mismatch detected!`);
-    console.error(`  Input parcels:    ${totalInput}`);
-    console.error(`  Output parcels:   ${totalOutput}`);
-    console.error(`  Missing parcels:  ${totalInput - totalOutput}`);
-    console.error(`\nThis indicates parcels were lost during processing.`);
+    console.error(`  Input rows:       ${totalInput}`);
+    console.error(`  Output rows:      ${totalOutput}`);
+    console.error(`  Missing rows:     ${totalInput - totalOutput}`);
+    console.error(`\nThis indicates rows were lost during processing.`);
     console.error('Review error logs and pipeline code immediately.\n');
     process.exit(1);
   }
 
-  console.log(`✓ Count reconciliation passed: ${totalInput} in = ${totalOutput} out`);
+  console.log(
+    `✓ Count reconciliation passed: ${totalInput} in = ${totalOutput} out (${enrichedParcels.length} enriched + ${errors.length} failed + ${totalMalformedInput} malformed)`
+  );
 
-  // Check 2: Success rate analysis
-  const successRate = (enrichedParcels.length / totalInput) * 100;
-  console.log(`✓ Success rate: ${successRate.toFixed(1)}%`);
+  // Check 2: Success rate analysis (based on valid input parcels only)
+  const successRate = (enrichedParcels.length / totalValidInput) * 100;
+  console.log(`✓ Enrichment success rate: ${successRate.toFixed(1)}% (of valid parcels)`);
 
   if (successRate < 90) {
     console.warn(`\n⚠️  WARNING: Success rate below 90%`);
@@ -237,7 +262,7 @@ async function main(): Promise<void> {
   console.log('\nStage 5: Writing output files...');
 
   try {
-    writeAllOutputs(enrichedParcels, errors, summary);
+    writeAllOutputs(enrichedParcels, errors, malformedRows, summary);
   } catch (error) {
     console.error('\n✗ Failed to write output files:');
     console.error(error instanceof Error ? error.message : String(error));
@@ -249,21 +274,30 @@ async function main(): Promise<void> {
   console.log('======================================================\n');
 
   console.log('Results Summary:');
-  console.log(`  Total parcels:         ${summary.total_parcels}`);
+  console.log(`  Total CSV rows:        ${totalInput}`);
+  console.log(`  Valid parcels:         ${summary.total_parcels}`);
   console.log(`  Successfully enriched: ${summary.successful_enrichments}`);
   console.log(`  Failed enrichments:    ${summary.failed_enrichments}`);
+  console.log(`  Malformed CSV rows:    ${malformedRows.length}`);
   console.log(`  Processing time:       ${(summary.processing_time_ms / 1000).toFixed(2)}s`);
   console.log(`  Timestamp:             ${summary.timestamp}\n`);
 
   // Exit with appropriate code
-  // - 0 if all parcels enriched successfully
-  // - 1 if some parcels failed (but pipeline completed)
-  const exitCode = errors.length > 0 ? 1 : 0;
+  // - 0 if all valid parcels enriched successfully and no malformed rows
+  // - 1 if some parcels failed or malformed rows exist
+  const exitCode = errors.length > 0 || malformedRows.length > 0 ? 1 : 0;
 
   if (exitCode === 0) {
     console.log('✓ All parcels successfully enriched!');
   } else {
-    console.log('⚠️  Some parcels failed enrichment. Review error logs in output/enrichment_errors.json');
+    const messages = [];
+    if (errors.length > 0) {
+      messages.push(`${errors.length} enrichment failures (see output/enrichment_errors.json)`);
+    }
+    if (malformedRows.length > 0) {
+      messages.push(`${malformedRows.length} malformed CSV rows (see output/csv_malformed_rows.json)`);
+    }
+    console.log(`⚠️  Issues detected: ${messages.join(', ')}`);
   }
 
   process.exit(exitCode);

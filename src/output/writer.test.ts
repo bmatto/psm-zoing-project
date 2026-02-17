@@ -219,7 +219,8 @@ describe('Output Writer', () => {
         rmSync(realOutputDir, { recursive: true });
       }
 
-      writeAllOutputs(parcels, errors, summary);
+      const malformedRows: never[] = [];
+      writeAllOutputs(parcels, errors, malformedRows, summary);
 
       // Check all three files exist
       expect(existsSync(resolve(realOutputDir, 'portsmouth_properties_full.json'))).toBe(true);
@@ -250,6 +251,7 @@ describe('Output Writer', () => {
       ];
 
       const errors: APIError[] = [];
+      const malformedRows: never[] = [];
 
       // Summary says 2 parcels but we only have 1 - should throw
       const summary: EnrichmentSummary = {
@@ -261,7 +263,9 @@ describe('Output Writer', () => {
         timestamp: new Date().toISOString(),
       };
 
-      expect(() => writeAllOutputs(parcels, errors, summary)).toThrow('Output count mismatch');
+      expect(() => writeAllOutputs(parcels, errors, malformedRows, summary)).toThrow(
+        'Output count mismatch'
+      );
     });
 
     it('creates output directory if it does not exist', () => {
@@ -272,6 +276,7 @@ describe('Output Writer', () => {
 
       const parcels: EnrichedParcel[] = [];
       const errors: APIError[] = [];
+      const malformedRows: never[] = [];
       const summary: EnrichmentSummary = {
         total_parcels: 0,
         successful_enrichments: 0,
@@ -281,7 +286,7 @@ describe('Output Writer', () => {
         timestamp: new Date().toISOString(),
       };
 
-      writeAllOutputs(parcels, errors, summary);
+      writeAllOutputs(parcels, errors, malformedRows, summary);
 
       expect(existsSync(outputDir)).toBe(true);
 

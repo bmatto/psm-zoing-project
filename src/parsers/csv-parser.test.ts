@@ -22,13 +22,14 @@ describe('CSV Parser', () => {
       mkdirSync(TEST_DATA_DIR, { recursive: true });
       writeFileSync(TEST_CSV_PATH, csvContent, 'utf-8');
 
-      const parcels = loadParcels(TEST_CSV_PATH);
+      const result = loadParcels(TEST_CSV_PATH);
 
-      expect(parcels).toHaveLength(2);
-      expect(parcels[0]?.displayid).toBe('0292-0135-0000');
-      expect(parcels[0]?.streetaddress).toBe('17 WINCHESTER ST');
-      expect(parcels[1]?.displayid).toBe('0292-0108-0000');
-      expect(parcels[1]?.streetaddress).toBe('54 WINCHESTER ST');
+      expect(result.parcels).toHaveLength(2);
+      expect(result.malformedRows).toHaveLength(0);
+      expect(result.parcels[0]?.displayid).toBe('0292-0135-0000');
+      expect(result.parcels[0]?.streetaddress).toBe('17 WINCHESTER ST');
+      expect(result.parcels[1]?.displayid).toBe('0292-0108-0000');
+      expect(result.parcels[1]?.streetaddress).toBe('54 WINCHESTER ST');
 
       unlinkSync(TEST_CSV_PATH);
     });
@@ -40,10 +41,10 @@ describe('CSV Parser', () => {
       mkdirSync(TEST_DATA_DIR, { recursive: true });
       writeFileSync(TEST_CSV_PATH, csvContent, 'utf-8');
 
-      const parcels = loadParcels(TEST_CSV_PATH);
+      const result = loadParcels(TEST_CSV_PATH);
 
       // Verify type structure
-      const parcel = parcels[0];
+      const parcel = result.parcels[0];
       expect(parcel).toBeDefined();
       expect(typeof parcel?.displayid).toBe('string');
       expect(typeof parcel?.pid).toBe('string');
@@ -59,8 +60,9 @@ describe('CSV Parser', () => {
       mkdirSync(TEST_DATA_DIR, { recursive: true });
       writeFileSync(TEST_CSV_PATH, csvContent, 'utf-8');
 
-      const parcels = loadParcels(TEST_CSV_PATH);
-      expect(parcels).toHaveLength(1);
+      const result = loadParcels(TEST_CSV_PATH);
+      expect(result.parcels).toHaveLength(1);
+      expect(result.malformedRows).toHaveLength(0);
 
       unlinkSync(TEST_CSV_PATH);
     });
@@ -80,26 +82,36 @@ describe('CSV Parser', () => {
       unlinkSync(TEST_CSV_PATH);
     });
 
-    it('should throw error if required field displayid is missing', () => {
+    it('should track rows with missing displayid as malformed', () => {
       const csvContent = 'town,slum,localnbc,pid,townid,nbc,oid_1,sluc,u_id,countyid,name,streetaddress,parceloid,nh_gis_id,displayid,SHAPE__Length,slu,objectid,SHAPE__Area\n' +
         'Portsmouth,,118,0292-0135-0000,178,17,,11,178-32597,8,CamaID: 0292-0135-0000,17 WINCHESTER ST,483569,08178-0292-0135-0000,,349.04389828291,11,177454,7404.93083891854';
 
       mkdirSync(TEST_DATA_DIR, { recursive: true });
       writeFileSync(TEST_CSV_PATH, csvContent, 'utf-8');
 
-      expect(() => loadParcels(TEST_CSV_PATH)).toThrow("Missing required field 'displayid'");
+      const result = loadParcels(TEST_CSV_PATH);
+
+      expect(result.parcels).toHaveLength(0);
+      expect(result.malformedRows).toHaveLength(1);
+      expect(result.malformedRows[0]?.error).toContain("Missing required field 'displayid'");
+      expect(result.malformedRows[0]?.rowNumber).toBe(2);
 
       unlinkSync(TEST_CSV_PATH);
     });
 
-    it('should throw error if required field pid is missing', () => {
+    it('should track rows with missing pid as malformed', () => {
       const csvContent = 'town,slum,localnbc,pid,townid,nbc,oid_1,sluc,u_id,countyid,name,streetaddress,parceloid,nh_gis_id,displayid,SHAPE__Length,slu,objectid,SHAPE__Area\n' +
         'Portsmouth,,118,,178,17,,11,178-32597,8,CamaID: 0292-0135-0000,17 WINCHESTER ST,483569,08178-0292-0135-0000,0292-0135-0000,349.04389828291,11,177454,7404.93083891854';
 
       mkdirSync(TEST_DATA_DIR, { recursive: true });
       writeFileSync(TEST_CSV_PATH, csvContent, 'utf-8');
 
-      expect(() => loadParcels(TEST_CSV_PATH)).toThrow("Missing required field 'pid'");
+      const result = loadParcels(TEST_CSV_PATH);
+
+      expect(result.parcels).toHaveLength(0);
+      expect(result.malformedRows).toHaveLength(1);
+      expect(result.malformedRows[0]?.error).toContain("Missing required field 'pid'");
+      expect(result.malformedRows[0]?.rowNumber).toBe(2);
 
       unlinkSync(TEST_CSV_PATH);
     });

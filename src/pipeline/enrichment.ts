@@ -2,7 +2,7 @@
  * Parallel Data Enrichment Pipeline
  *
  * Processes parcel records in parallel batches, enriching each with data
- * from Map Geo and VGSI APIs. Implements comprehensive error tracking and
+ * from the Map Geo API. Implements comprehensive error tracking and
  * progress reporting.
  *
  * Core Principles:
@@ -17,14 +17,11 @@ import type {
   EnrichedParcel,
   APIError,
   MapGeoResponse,
-  VGSIResponse,
   EnrichmentResult,
 } from '../types/index.js';
 import { MapGeoClient } from '../api/mapgeo-client.js';
-import { VGSIClient } from '../api/vgsi-client.js';
 import {
   validateMapGeoResponse,
-  validateVGSIResponse,
   validateEnrichedParcel,
 } from '../validators/data-validator.js';
 
@@ -56,37 +53,34 @@ export interface EnrichmentConfig {
  *
  * Orchestrates the complete enrichment process:
  * 1. Fetches Map Geo data for each parcel
- * 2. Fetches VGSI building data (if account number available)
- * 3. Combines all data into EnrichedParcel objects
- * 4. Validates output data quality
- * 5. Tracks all errors and failures
+ * 2. Combines data into EnrichedParcel objects
+ * 3. Validates output data quality
+ * 4. Tracks all errors and failures
+ *
+ * Note: VGSI building data integration is disabled and will be added in a future update.
  */
 export class EnrichmentPipeline {
   private readonly mapGeoClient: MapGeoClient;
-  private readonly vgsiClient: VGSIClient;
   private readonly batchSize: number;
 
   constructor(config: EnrichmentConfig = {}) {
     this.batchSize = config.batchSize ?? 5;
 
-    // Initialize API clients with shared config
+    // Initialize API client with shared config
     this.mapGeoClient = new MapGeoClient({
-      maxRequestsPerSecond: config.maxRequestsPerSecond ?? 10,
-      maxRetries: config.maxRetries ?? 3,
-    });
-
-    this.vgsiClient = new VGSIClient({
       maxRequestsPerSecond: config.maxRequestsPerSecond ?? 10,
       maxRetries: config.maxRetries ?? 3,
     });
   }
 
   /**
-   * Enriches a single parcel with data from Map Geo and VGSI APIs
+   * Enriches a single parcel with data from Map Geo API
    *
    * CRITICAL: This method attempts to enrich the parcel but NEVER throws.
    * All errors are captured and returned as APIError objects to ensure
    * no parcels are silently lost during processing.
+   *
+   * Note: Building data from VGSI is not currently integrated.
    *
    * @param parcel - Base parcel record from CSV
    * @returns Enriched parcel data OR error object
@@ -122,40 +116,10 @@ export class EnrichmentPipeline {
         };
       }
 
-      // Step 2: Fetch VGSI building data (if account number available)
-      let vgsiData: VGSIResponse = {};
-      const accountNumber = mapGeoData.data.account;
+      // Step 2: Combine all data into EnrichedParcel object
+      const enrichedParcel = this.combineParcelData(parcel, mapGeoData);
 
-      if (accountNumber) {
-        try {
-          const vgsiResult = await this.vgsiClient.fetchPropertyData(accountNumber, parcelId);
-
-          if (vgsiResult) {
-            // Validate VGSI response if we got data
-            const validationErrors = validateVGSIResponse(vgsiResult, parcelId);
-            if (validationErrors.length > 0) {
-              console.warn(
-                `VGSI validation warnings for ${parcelId}: ${validationErrors
-                  .map(e => e.message)
-                  .join('; ')}`
-              );
-            } else {
-              vgsiData = vgsiResult;
-            }
-          }
-        } catch (error) {
-          // VGSI errors are non-fatal - we can still enrich with Map Geo data
-          console.warn(
-            `VGSI fetch failed for ${parcelId}, continuing with Map Geo data only:`,
-            error instanceof Error ? error.message : String(error)
-          );
-        }
-      }
-
-      // Step 3: Combine all data into EnrichedParcel object
-      const enrichedParcel = this.combineParcelData(parcel, mapGeoData, vgsiData);
-
-      // Step 4: Validate final enriched parcel
+      // Step 3: Validate final enriched parcel
       const finalValidationErrors = validateEnrichedParcel(enrichedParcel as unknown as Record<string, unknown>);
       if (finalValidationErrors.length > 0) {
         throw new Error(
@@ -182,18 +146,19 @@ export class EnrichmentPipeline {
   /**
    * Combines data from all sources into a single EnrichedParcel object
    *
-   * Handles type conversions, defaults, and calculations (e.g., lot coverage).
+   * Handles type conversions, defaults, and calculations.
    * Ensures all fields have valid values.
+   *
+   * Note: Building measurements (footprint, living area, lot coverage) are set to 0/undefined
+   * until VGSI integration is added.
    *
    * @param parcel - Base parcel record from CSV
    * @param mapGeoData - Data from Map Geo API
-   * @param vgsiData - Data from VGSI API (may be empty)
    * @returns Complete enriched parcel object
    */
   private combineParcelData(
     parcel: ParcelRecord,
-    mapGeoData: MapGeoResponse,
-    vgsiData: VGSIResponse
+    mapGeoData: MapGeoResponse
   ): EnrichedParcel {
     const data = mapGeoData.data;
 
@@ -203,14 +168,10 @@ export class EnrichmentPipeline {
     const parcelAreaSqft = this.parseNumber(data.parcelArea, 0);
     const parcelAreaAcres = parcelAreaSqft / 43560; // Convert sqft to acres
 
-    // Get building measurements from VGSI (if available)
-    const buildingFootprint = vgsiData.building_footprint_sqft ?? 0;
-    const livingArea = vgsiData.living_area_sqft;
-
-    // Calculate lot coverage percentage
-    // Lot coverage = (building footprint / parcel area) * 100
-    const lotCoveragePct =
-      parcelAreaSqft > 0 ? (buildingFootprint / parcelAreaSqft) * 100 : 0;
+    // Building measurements - not available without VGSI integration
+    const buildingFootprint = 0;
+    const livingArea = undefined;
+    const lotCoveragePct = 0;
 
     // Build enriched parcel object
     const enriched: EnrichedParcel = {
@@ -231,7 +192,7 @@ export class EnrichmentPipeline {
       parcel_area_acres: parcelAreaAcres,
       parcel_area_sqft: parcelAreaSqft,
 
-      // Building information
+      // Building information (VGSI data - not currently available)
       building_footprint_sqft: buildingFootprint,
       living_area_sqft: livingArea,
       lot_coverage_pct: lotCoveragePct,

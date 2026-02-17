@@ -2,22 +2,20 @@
  * Integration tests for parallel enrichment pipeline
  *
  * Tests the complete data enrichment flow with sample data.
+ * Note: VGSI integration is currently disabled.
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { EnrichmentPipeline } from './enrichment.js';
-import type { ParcelRecord, MapGeoResponse, VGSIResponse } from '../types/index.js';
+import type { ParcelRecord, MapGeoResponse } from '../types/index.js';
 import { MapGeoClient } from '../api/mapgeo-client.js';
-import { VGSIClient } from '../api/vgsi-client.js';
 
-// Mock the API clients
+// Mock the API client
 vi.mock('../api/mapgeo-client.js');
-vi.mock('../api/vgsi-client.js');
 
 describe('EnrichmentPipeline', () => {
   let pipeline: EnrichmentPipeline;
   let mockMapGeoClient: any;
-  let mockVGSIClient: any;
 
   beforeEach(() => {
     // Reset mocks
@@ -30,9 +28,8 @@ describe('EnrichmentPipeline', () => {
       maxRetries: 3,
     });
 
-    // Get mock instances
+    // Get mock instance
     mockMapGeoClient = vi.mocked(MapGeoClient).mock.instances[0];
-    mockVGSIClient = vi.mocked(VGSIClient).mock.instances[0];
   });
 
   // Sample test data
@@ -74,22 +71,13 @@ describe('EnrichmentPipeline', () => {
     },
   });
 
-  const createVGSIResponse = (): VGSIResponse => ({
-    living_area_sqft: 2000,
-    building_footprint_sqft: 1800,
-  });
-
-  it('should enrich parcels successfully with complete data', async () => {
+  it('should enrich parcels successfully with Map Geo data', async () => {
     // Arrange
     const parcels = [createSampleParcel('001'), createSampleParcel('002')];
 
     mockMapGeoClient.fetchParcelData = vi
       .fn()
       .mockImplementation(async (parcelId: string) => createMapGeoResponse(parcelId));
-
-    mockVGSIClient.fetchPropertyData = vi
-      .fn()
-      .mockImplementation(async () => createVGSIResponse());
 
     // Act
     const result = await pipeline.enrichParcels(parcels);
@@ -110,12 +98,11 @@ describe('EnrichmentPipeline', () => {
     expect(enriched.total_value).toBe(500000);
     expect(enriched.land_value).toBe(200000);
     expect(enriched.parcel_area_sqft).toBe(10000);
-    expect(enriched.building_footprint_sqft).toBe(1800);
-    expect(enriched.living_area_sqft).toBe(2000);
 
-    // Verify lot coverage calculation
-    // (1800 sqft building / 10000 sqft parcel) * 100 = 18%
-    expect(enriched.lot_coverage_pct).toBeCloseTo(18, 1);
+    // Building data not available without VGSI
+    expect(enriched.building_footprint_sqft).toBe(0);
+    expect(enriched.living_area_sqft).toBeUndefined();
+    expect(enriched.lot_coverage_pct).toBe(0);
   });
 
   it('should handle Map Geo API failures gracefully', async () => {
@@ -128,8 +115,6 @@ describe('EnrichmentPipeline', () => {
       .mockImplementationOnce(async () => {
         throw new Error('API request timeout');
       });
-
-    mockVGSIClient.fetchPropertyData = vi.fn().mockResolvedValue(createVGSIResponse());
 
     // Act
     const result = await pipeline.enrichParcels(parcels);
@@ -146,32 +131,6 @@ describe('EnrichmentPipeline', () => {
     expect(error.stage).toBe('mapgeo_fetch');
     expect(error.error_type).toBe('APIFetchError');
     expect(error.message).toContain('timeout');
-  });
-
-  it('should continue enrichment when VGSI data is unavailable', async () => {
-    // Arrange
-    const parcels = [createSampleParcel('001')];
-
-    mockMapGeoClient.fetchParcelData = vi
-      .fn()
-      .mockResolvedValue(createMapGeoResponse('001'));
-
-    // VGSI returns null (common for parcels without buildings)
-    mockVGSIClient.fetchPropertyData = vi.fn().mockResolvedValue(null);
-
-    // Act
-    const result = await pipeline.enrichParcels(parcels);
-
-    // Assert
-    expect(result.parcels).toHaveLength(1);
-    expect(result.errors).toHaveLength(0);
-
-    // Verify enrichment succeeded with defaults for building data
-    const enriched = result.parcels[0]!;
-    expect(enriched.parcel_id).toBe('001');
-    expect(enriched.building_footprint_sqft).toBe(0);
-    expect(enriched.living_area_sqft).toBeUndefined();
-    expect(enriched.lot_coverage_pct).toBe(0);
   });
 
   it('should process parcels in parallel batches', async () => {
@@ -192,8 +151,6 @@ describe('EnrichmentPipeline', () => {
         await new Promise(resolve => setTimeout(resolve, 10));
         return createMapGeoResponse(parcelId);
       });
-
-    mockVGSIClient.fetchPropertyData = vi.fn().mockResolvedValue(createVGSIResponse());
 
     // Act
     await pipeline.enrichParcels(parcels);
@@ -232,8 +189,6 @@ describe('EnrichmentPipeline', () => {
       })
       .mockImplementationOnce(async () => createMapGeoResponse('005'));
 
-    mockVGSIClient.fetchPropertyData = vi.fn().mockResolvedValue(createVGSIResponse());
-
     // Act
     const result = await pipeline.enrichParcels(parcels);
 
@@ -256,7 +211,6 @@ describe('EnrichmentPipeline', () => {
     mockMapGeoClient.fetchParcelData = vi
       .fn()
       .mockResolvedValue(createMapGeoResponse('001'));
-    mockVGSIClient.fetchPropertyData = vi.fn().mockResolvedValue(createVGSIResponse());
 
     const startTime = Date.now();
 
@@ -273,58 +227,6 @@ describe('EnrichmentPipeline', () => {
     expect(summaryTime).toBeLessThanOrEqual(Date.now());
   });
 
-  it('should handle parcels without account numbers (no VGSI lookup)', async () => {
-    // Arrange
-    const parcels = [createSampleParcel('001')];
-
-    // Map Geo response without account number
-    const mapGeoResponse = createMapGeoResponse('001');
-    mapGeoResponse.data.account = undefined;
-
-    mockMapGeoClient.fetchParcelData = vi.fn().mockResolvedValue(mapGeoResponse);
-    mockVGSIClient.fetchPropertyData = vi.fn();
-
-    // Act
-    const result = await pipeline.enrichParcels(parcels);
-
-    // Assert
-    expect(result.parcels).toHaveLength(1);
-    expect(result.errors).toHaveLength(0);
-
-    // VGSI should not have been called (no account number)
-    expect(mockVGSIClient.fetchPropertyData).not.toHaveBeenCalled();
-
-    // Enriched parcel should have default building values
-    const enriched = result.parcels[0]!;
-    expect(enriched.building_footprint_sqft).toBe(0);
-    expect(enriched.living_area_sqft).toBeUndefined();
-  });
-
-  it('should calculate lot coverage percentage correctly', async () => {
-    // Arrange
-    const parcels = [createSampleParcel('001')];
-
-    const mapGeoResponse = createMapGeoResponse('001');
-    mapGeoResponse.data.parcelArea = 20000; // 20,000 sqft parcel
-
-    const vgsiResponse: VGSIResponse = {
-      building_footprint_sqft: 4000, // 4,000 sqft building
-      living_area_sqft: 3500,
-    };
-
-    mockMapGeoClient.fetchParcelData = vi.fn().mockResolvedValue(mapGeoResponse);
-    mockVGSIClient.fetchPropertyData = vi.fn().mockResolvedValue(vgsiResponse);
-
-    // Act
-    const result = await pipeline.enrichParcels(parcels);
-
-    // Assert
-    const enriched = result.parcels[0]!;
-
-    // Lot coverage = (4000 / 20000) * 100 = 20%
-    expect(enriched.lot_coverage_pct).toBeCloseTo(20, 1);
-  });
-
   it('should handle string values for numeric fields in Map Geo response', async () => {
     // Arrange
     const parcels = [createSampleParcel('001')];
@@ -336,7 +238,6 @@ describe('EnrichmentPipeline', () => {
     mapGeoResponse.data.parcelArea = '10,000';
 
     mockMapGeoClient.fetchParcelData = vi.fn().mockResolvedValue(mapGeoResponse);
-    mockVGSIClient.fetchPropertyData = vi.fn().mockResolvedValue(createVGSIResponse());
 
     // Act
     const result = await pipeline.enrichParcels(parcels);
@@ -346,5 +247,27 @@ describe('EnrichmentPipeline', () => {
     expect(enriched.total_value).toBe(500000);
     expect(enriched.land_value).toBe(200000);
     expect(enriched.parcel_area_sqft).toBe(10000);
+  });
+
+  it('should set building data to defaults when VGSI is not integrated', async () => {
+    // Arrange
+    const parcels = [createSampleParcel('001')];
+
+    mockMapGeoClient.fetchParcelData = vi
+      .fn()
+      .mockResolvedValue(createMapGeoResponse('001'));
+
+    // Act
+    const result = await pipeline.enrichParcels(parcels);
+
+    // Assert
+    expect(result.parcels).toHaveLength(1);
+    expect(result.errors).toHaveLength(0);
+
+    // Enriched parcel should have default building values (VGSI not integrated)
+    const enriched = result.parcels[0]!;
+    expect(enriched.building_footprint_sqft).toBe(0);
+    expect(enriched.living_area_sqft).toBeUndefined();
+    expect(enriched.lot_coverage_pct).toBe(0);
   });
 });

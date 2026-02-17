@@ -1,0 +1,11 @@
+{
+  "total_parcels": 6320,
+  "successful_enrichments": 6278,
+  "failed_enrichments": 42,
+  "validation_errors": 0,
+  "processing_time_ms": 5728324,
+  "timestamp": "2026-02-17T01:41:45.935Z",
+  "success_rate_pct": "99.34",
+  "failure_rate_pct": "0.66",
+  "processing_time_seconds": "5728.32"
+}

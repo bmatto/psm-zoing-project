@@ -14,6 +14,7 @@
 import { writeFileSync, mkdirSync, existsSync } from 'fs';
 import { resolve } from 'path';
 import type { EnrichedParcel, APIError, EnrichmentSummary } from '../types/index.js';
+import type { LoadParcelsResult } from '../parsers/csv-parser.js';
 
 /**
  * Ensure output directory exists
@@ -109,6 +110,38 @@ export function writeErrorReport(errors: APIError[], outputDir: string): string 
 }
 
 /**
+ * Write malformed CSV rows to JSON file
+ *
+ * @param malformedRows - Rows that failed CSV validation
+ * @param outputDir - Directory to write file to
+ * @returns Path to written file
+ */
+export function writeMalformedRows(
+  malformedRows: LoadParcelsResult['malformedRows'],
+  outputDir: string
+): string {
+  const filePath = resolve(outputDir, 'csv_malformed_rows.json');
+
+  const output = {
+    metadata: {
+      description:
+        'CSV rows that failed validation and were excluded from enrichment pipeline',
+      generated_at: new Date().toISOString(),
+      malformed_row_count: malformedRows.length,
+    },
+    summary: {
+      total_malformed: malformedRows.length,
+      note: 'These rows were missing required fields (displayid or pid) and could not be processed',
+    },
+    malformed_rows: malformedRows,
+  };
+
+  writeFileSync(filePath, JSON.stringify(output, null, 2), 'utf-8');
+
+  return filePath;
+}
+
+/**
  * Write analysis summary to JSON file
  *
  * @param summary - Statistics from enrichment process
@@ -131,26 +164,31 @@ export function writeAnalysisSummary(summary: EnrichmentSummary, outputDir: stri
 }
 
 /**
- * Write all output files (parcels, errors, summary)
+ * Write all output files (parcels, errors, malformed rows, summary)
  *
  * This is the main entry point for output generation.
- * Validates that output count matches input count (all parcels accounted for).
+ * Validates that output count matches input count (all rows accounted for).
  *
  * @param parcels - Successfully enriched parcels
  * @param errors - Failed parcels with error details
+ * @param malformedRows - CSV rows that failed validation
  * @param summary - Statistics from enrichment process
  * @throws Error if output count doesn't match input count
  */
 export function writeAllOutputs(
   parcels: EnrichedParcel[],
   errors: APIError[],
+  malformedRows: LoadParcelsResult['malformedRows'],
   summary: EnrichmentSummary
 ): void {
-  // Critical validation: ensure all parcels are accounted for
-  const totalOutput = parcels.length + errors.length;
-  if (totalOutput !== summary.total_parcels) {
+  // Critical validation: ensure all rows are accounted for
+  // Total = enriched + failed enrichment + malformed CSV rows
+  const totalOutput = parcels.length + errors.length + malformedRows.length;
+  const totalInput = summary.total_parcels + malformedRows.length;
+
+  if (totalOutput !== totalInput) {
     throw new Error(
-      `Output count mismatch: ${totalOutput} outputs (${parcels.length} successful + ${errors.length} failed) != ${summary.total_parcels} input parcels`
+      `Output count mismatch: ${totalOutput} outputs (${parcels.length} enriched + ${errors.length} failed + ${malformedRows.length} malformed) != ${totalInput} input rows`
     );
   }
 
@@ -166,6 +204,12 @@ export function writeAllOutputs(
   // Write error report
   const errorsPath = writeErrorReport(errors, outputDir);
   console.log(`✓ Error report written to: ${errorsPath}`);
+
+  // Write malformed rows
+  if (malformedRows.length > 0) {
+    const malformedPath = writeMalformedRows(malformedRows, outputDir);
+    console.log(`✓ Malformed rows written to: ${malformedPath}`);
+  }
 
   // Write analysis summary
   const summaryPath = writeAnalysisSummary(summary, outputDir);

@@ -10,13 +10,27 @@ import { readFileSync } from 'fs';
 import { ParcelRecord } from '../types/index.js';
 
 /**
+ * Result from loading parcels with validation tracking
+ */
+export interface LoadParcelsResult {
+  /** Successfully parsed and validated parcels */
+  parcels: ParcelRecord[];
+  /** Rows that failed validation with error details */
+  malformedRows: Array<{
+    rowNumber: number;
+    error: string;
+    rawData?: Record<string, string>;
+  }>;
+}
+
+/**
  * Loads and parses Portsmouth parcel data from CSV file
  *
  * @param csvPath - Path to Portsmouth_Parcels.csv file
- * @returns Array of parsed and validated parcel records
- * @throws Error if file is missing, malformed, or contains invalid data
+ * @returns Object with valid parcels and malformed row information
+ * @throws Error only if file is missing or completely unparseable
  */
-export function loadParcels(csvPath: string): ParcelRecord[] {
+export function loadParcels(csvPath: string): LoadParcelsResult {
   console.log(`Loading parcels from: ${csvPath}`);
 
   // Read the CSV file
@@ -46,7 +60,11 @@ export function loadParcels(csvPath: string): ParcelRecord[] {
 
   // Validate and transform records
   const parcels: ParcelRecord[] = [];
-  const errors: string[] = [];
+  const malformedRows: Array<{
+    rowNumber: number;
+    error: string;
+    rawData?: Record<string, string>;
+  }> = [];
 
   for (let i = 0; i < records.length; i++) {
     const row = records[i];
@@ -56,12 +74,20 @@ export function loadParcels(csvPath: string): ParcelRecord[] {
 
     // Validate required fields
     if (!row['displayid'] || row['displayid'].trim() === '') {
-      errors.push(`Row ${rowNumber}: Missing required field 'displayid'`);
+      malformedRows.push({
+        rowNumber,
+        error: "Missing required field 'displayid'",
+        rawData: row,
+      });
       continue;
     }
 
     if (!row['pid'] || row['pid'].trim() === '') {
-      errors.push(`Row ${rowNumber}: Missing required field 'pid' (Parcel ID: ${row['displayid']})`);
+      malformedRows.push({
+        rowNumber,
+        error: `Missing required field 'pid' (Parcel ID: ${row['displayid']})`,
+        rawData: row,
+      });
       continue;
     }
 
@@ -91,17 +117,25 @@ export function loadParcels(csvPath: string): ParcelRecord[] {
     parcels.push(parcel);
   }
 
-  // If we have validation errors, throw with details
-  if (errors.length > 0) {
-    throw new Error(
-      `CSV validation failed with ${errors.length} error(s):\n${errors.slice(0, 10).join('\n')}${
-        errors.length > 10 ? `\n... and ${errors.length - 10} more errors` : ''
-      }`
-    );
+  // Report on parsing results - track malformed rows but don't fail
+  const totalRows = records.length;
+  console.log(`✓ Loaded ${parcels.length} valid parcels from ${totalRows} CSV rows`);
+
+  if (malformedRows.length > 0) {
+    console.warn(`⚠️  Warning: ${malformedRows.length} malformed rows skipped`);
+    console.warn(`  First few errors:`);
+    for (const malformed of malformedRows.slice(0, 5)) {
+      console.warn(`    Row ${malformed.rowNumber}: ${malformed.error}`);
+    }
+    if (malformedRows.length > 5) {
+      console.warn(`    ... and ${malformedRows.length - 5} more malformed rows`);
+    }
   }
 
-  console.log(`✓ Loaded ${parcels.length} parcels from CSV`);
-  return parcels;
+  return {
+    parcels,
+    malformedRows,
+  };
 }
 
 /**
