@@ -1,6 +1,6 @@
 # Portsmouth Zoning Analysis
 
-Comprehensive zoning analysis for the City of Portsmouth, NH, combining data from multiple authoritative sources to create an accurate, validated parcel dataset.
+Zoning analysis for the City of Portsmouth, NH, combining data from multiple authoritative sources to create an accurate, validated parcel dataset.
 
 ## Overview
 
@@ -10,14 +10,6 @@ This project collects, enriches, and analyzes parcel data for Portsmouth by:
 3. Adding building details from VGSI API
 4. Validating data quality at every stage
 5. Generating comprehensive reports with error tracking
-
-## Core Principles
-
-The project follows three core principles (see [CLAUDE.md](CLAUDE.md)):
-
-1. **Accuracy Above All**: Data integrity is prioritized over processing speed
-2. **Thoroughness**: Every parcel must be accounted for (no silent skipping)
-3. **Certainty**: All data is validated before incorporation
 
 ## Quick Start
 
@@ -115,7 +107,6 @@ zoning-project/
 │   ├── README.md               # Migration status
 │   └── *.py                    # Archived Python files
 ├── Portsmouth_Parcels.csv       # Master parcel list (State GIS)
-├── CLAUDE.md                    # Development guidelines
 ├── package.json                 # Node.js dependencies
 ├── tsconfig.json               # TypeScript configuration
 └── vitest.config.ts            # Test configuration
@@ -183,11 +174,6 @@ Processing statistics and metadata
   - Validation rules
   - Output format specifications
   - Error handling strategies
-
-- **[CLAUDE.md](CLAUDE.md)** - Core principles and development guidelines
-  - Accuracy, thoroughness, and certainty principles
-  - Data quality standards
-  - Common development tasks
 
 ## Development
 
@@ -270,11 +256,10 @@ See [deprecated/README.md](deprecated/README.md) for migration details and why t
 
 When working on this project:
 
-1. Read [CLAUDE.md](CLAUDE.md) for core principles
-2. Read [docs/methodology.md](docs/methodology.md) for technical details
-3. Run tests before committing: `npm test`
-4. Run typecheck before committing: `npm run typecheck`
-5. Follow existing code patterns (see `src/` for examples)
+1. Read [docs/methodology.md](docs/methodology.md) for technical details
+2. Run tests before committing: `npm test`
+3. Run typecheck before committing: `npm run typecheck`
+4. Follow existing code patterns (see `src/` for examples)
 
 ## License
 
@@ -283,5 +268,3 @@ This project is for the City of Portsmouth, NH zoning analysis.
 ## Questions?
 
 - **Methodology**: See [docs/methodology.md](docs/methodology.md)
-- **Development**: See [CLAUDE.md](CLAUDE.md)
-- **Migration**: See [deprecated/README.md](deprecated/README.md)
