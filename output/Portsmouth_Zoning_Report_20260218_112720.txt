@@ -1,0 +1,755 @@
+================================================================================
+PORTSMOUTH NH COMPREHENSIVE ZONING ANALYSIS REPORT
+================================================================================
+Generated: February 18, 2026 at 11:27:20 AM
+Based on: Portsmouth Zoning Ordinance (Amended through May 5, 2025)
+Source: https://files.portsmouthnh.gov/files/planning/ZoningOrd-250505+ADOPTED.pdf
+Total Properties Analyzed: 5,858
+Total Land Area: 0.15 acres
+Total Zones: 34
+
+================================================================================
+LAND DISTRIBUTION BY ZONE
+================================================================================
+
+SRB - Single Residence B
+  Area: 0.03 acres (18.4%)
+  Parcels: 2,510
+
+NRP - Natural Resource Protection
+  Area: 0.02 acres (12.0%)
+  Parcels: 55
+
+M - Municipal
+  Area: 0.02 acres (11.1%)
+  Parcels: 137
+
+I - Industrial
+  Area: 0.01 acres (9.3%)
+  Parcels: 71
+
+SRA - Single Residence A
+  Area: 0.01 acres (9.1%)
+  Parcels: 275
+
+R - Residential
+  Area: 0.01 acres (7.6%)
+  Parcels: 41
+
+G1 - General Business 1
+  Area: 0.01 acres (7.4%)
+  Parcels: 111
+
+OR - Office Research
+  Area: 0.01 acres (5.1%)
+  Parcels: 38
+
+GRA - General Residence A
+  Area: 0.01 acres (3.6%)
+  Parcels: 1,105
+
+GA/MH - Garden Apartment/Mobile Home Park
+  Area: 0 acres (2.7%)
+  Parcels: 20
+
+ABC - ABC
+  Area: 0 acres (1.7%)
+  Parcels: 10
+
+GRB - General Residence B
+  Area: 0 acres (1.7%)
+  Parcels: 523
+
+GW - GW
+  Area: 0 acres (1.6%)
+  Parcels: 4
+
+WI - Waterfront Industrial
+  Area: 0 acres (1.1%)
+  Parcels: 6
+
+GB - General Business
+  Area: 0 acres (1.0%)
+  Parcels: 19
+
+G2 - General Business 2
+  Area: 0 acres (0.8%)
+  Parcels: 33
+
+CD4-W - CD4-W
+  Area: 0 acres (0.7%)
+  Parcels: 46
+
+W - W
+  Area: 0 acres (0.5%)
+  Parcels: 1
+
+MRO - Mixed Residential Office
+  Area: 0 acres (0.5%)
+  Parcels: 90
+
+GRC - General Residence C
+  Area: 0 acres (0.5%)
+  Parcels: 288
+
+TC - TC
+  Area: 0 acres (0.5%)
+  Parcels: 17
+
+GA - GA
+  Area: 0 acres (0.4%)
+  Parcels: 1
+
+CD5 - CD5
+  Area: 0 acres (0.3%)
+  Parcels: 92
+
+CD4 - CD4
+  Area: 0 acres (0.3%)
+  Parcels: 124
+
+WB - Waterfront Business
+  Area: 0 acres (0.3%)
+  Parcels: 43
+
+B - Business
+  Area: 0 acres (0.2%)
+  Parcels: 18
+
+CD4-L1 - CD4-L1
+  Area: 0 acres (0.2%)
+  Parcels: 85
+
+O - O
+  Area: 0 acres (0.2%)
+  Parcels: 2
+
+AI - AI
+  Area: 0 acres (0.2%)
+  Parcels: 2
+
+MRB - Mixed Residential Business
+  Area: 0 acres (0.2%)
+  Parcels: 25
+
+PI - PI
+  Area: 0 acres (0.2%)
+  Parcels: 1
+
+CD4-L2 - CD4-L2
+  Area: 0 acres (0.2%)
+  Parcels: 54
+
+Civic - Civic
+  Area: 0 acres (0.1%)
+  Parcels: 10
+
+E - E
+  Area: 0 acres (0.0%)
+  Parcels: 1
+
+================================================================================
+TAX REVENUE ANALYSIS BY ZONE
+================================================================================
+
+SRB - Single Residence B
+  Total Value: $1,943,034,615
+  Revenue Density: $71,152,966,154/acre
+  Parcels: 2,510
+
+GRA - General Residence A
+  Total Value: $1,266,786,510
+  Revenue Density: $238,158,050,823/acre
+  Parcels: 1,105
+
+G1 - General Business 1
+  Total Value: $613,793,700
+  Revenue Density: $55,552,480,982/acre
+  Parcels: 111
+
+GRB - General Residence B
+  Total Value: $542,858,926
+  Revenue Density: $212,862,857,292/acre
+  Parcels: 523
+
+CD5 - CD5
+  Total Value: $474,244,612
+  Revenue Density: $912,863,247,844/acre
+  Parcels: 92
+
+M - Municipal
+  Total Value: $452,905,635
+  Revenue Density: $27,465,640,346/acre
+  Parcels: 137
+
+ABC - ABC
+  Total Value: $382,503,183
+  Revenue Density: $149,769,336,193/acre
+  Parcels: 10
+
+SRA - Single Residence A
+  Total Value: $335,116,959
+  Revenue Density: $24,705,425,447/acre
+  Parcels: 275
+
+GRC - General Residence C
+  Total Value: $301,858,540
+  Revenue Density: $393,799,281,294/acre
+  Parcels: 288
+
+OR - Office Research
+  Total Value: $293,116,156
+  Revenue Density: $38,296,759,914/acre
+  Parcels: 38
+
+CD4 - CD4
+  Total Value: $283,337,528
+  Revenue Density: $599,135,083,480/acre
+  Parcels: 124
+
+I - Industrial
+  Total Value: $211,937,933
+  Revenue Density: $15,289,351,730/acre
+  Parcels: 71
+
+MRO - Mixed Residential Office
+  Total Value: $155,832,629
+  Revenue Density: $196,243,692,375/acre
+  Parcels: 90
+
+CD4-W - CD4-W
+  Total Value: $146,738,490
+  Revenue Density: $135,537,078,550/acre
+  Parcels: 46
+
+GA/MH - Garden Apartment/Mobile Home Park
+  Total Value: $144,404,344
+  Revenue Density: $35,817,408,180/acre
+  Parcels: 20
+
+────────────────────────────────────────────────────────────────────────────────
+MOST REVENUE-DENSE ZONE
+────────────────────────────────────────────────────────────────────────────────
+Zone: CD5
+Revenue per Acre: $912,863,247,844
+
+================================================================================
+ZONING VIOLATIONS ANALYSIS
+================================================================================
+Total Violations Found: 6,583
+Total Parcels with Violations: 5,402
+
+NOTE: This analysis uses zoning requirements from the official
+Portsmouth Zoning Ordinance (May 5, 2025 amendments).
+
+
+SRB - Single Residence B
+  Total Parcels: 2,510
+  Parcels with Violations: 2,510
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 2,510
+    - incompatible_use: 307
+
+  Examples (first 5):
+    0292-0135-0000
+      • [major] Lot size 0 sqft is below minimum 15000 sqft
+    0292-0108-0000
+      • [major] Lot size 0 sqft is below minimum 15000 sqft
+    0292-0109-0000
+      • [major] Lot size 0 sqft is below minimum 15000 sqft
+    0292-0112-0000
+      • [major] Lot size 0 sqft is below minimum 15000 sqft
+    0292-0106-0000
+      • [major] Lot size 0 sqft is below minimum 15000 sqft
+    ... and 2505 more parcels with violations
+
+GRA - General Residence A
+  Total Parcels: 1,105
+  Parcels with Violations: 1,105
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 1,105
+    - incompatible_use: 129
+
+  Examples (first 5):
+    0162-0045-0000
+      • [major] Lot size 0 sqft is below minimum 7500 sqft
+    0162-0061-0000
+      • [major] Lot size 0 sqft is below minimum 7500 sqft
+    0162-0060-0000
+      • [major] Lot size 0 sqft is below minimum 7500 sqft
+    0162-0059-0001
+      • [major] Lot size 0 sqft is below minimum 7500 sqft
+    0162-0059-0000
+      • [major] Lot size 0 sqft is below minimum 7500 sqft
+    ... and 1100 more parcels with violations
+
+M - Municipal
+  Total Parcels: 137
+  Parcels with Violations: 137
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - incompatible_use: 137
+
+  Examples (first 5):
+    0259-0025-0000
+      • [critical] Land use 'other' not allowed in Municipal zone
+    0221-0092-0000
+      • [critical] Land use 'other' not allowed in Municipal zone
+    0221-002A-0000
+      • [critical] Land use 'other' not allowed in Municipal zone
+    0102-0014-0000
+      • [critical] Land use 'other' not allowed in Municipal zone
+    0260-0140-0000
+      • [critical] Land use 'other' not allowed in Municipal zone
+    ... and 132 more parcels with violations
+
+R - Residential
+  Total Parcels: 41
+  Parcels with Violations: 41
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 41
+    - incompatible_use: 32
+
+  Examples (first 5):
+    0227-0002-0000
+      • [major] Lot size 1 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Residential zone
+    0265-0004-0000
+      • [major] Lot size 2 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Residential zone
+    0202-0021-0000
+      • [major] Lot size 2 sqft is below minimum 217800 sqft
+    0202-0020-0000
+      • [major] Lot size 6 sqft is below minimum 217800 sqft
+    0204-0008-0000
+      • [major] Lot size 6 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Residential zone
+    ... and 36 more parcels with violations
+
+G1 - General Business 1
+  Total Parcels: 111
+  Parcels with Violations: 111
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 111
+    - incompatible_use: 95
+
+  Examples (first 5):
+    0245-0004-0000
+      • [major] Lot size 0 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business 1 zone
+    0215-0007-0000
+      • [major] Lot size 4 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business 1 zone
+    0215-0014-0000
+      • [major] Lot size 12 sqft is below minimum 43560 sqft
+    0239-0013-0001
+      • [major] Lot size 3 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business 1 zone
+    0239-0013-0002
+      • [major] Lot size 6 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business 1 zone
+    ... and 106 more parcels with violations
+
+NRP - Natural Resource Protection
+  Total Parcels: 55
+  Parcels with Violations: 55
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 55
+    - incompatible_use: 52
+
+  Examples (first 5):
+    0228-0007-0000
+      • [major] Lot size 8 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Natural Resource Protection zone
+    0203-0001-0000
+      • [major] Lot size 19 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Natural Resource Protection zone
+    0201-0026-0000
+      • [major] Lot size 16 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Natural Resource Protection zone
+    0298-0005-0001
+      • [major] Lot size 7 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Natural Resource Protection zone
+    0243-0007-0000
+      • [major] Lot size 7 sqft is below minimum 217800 sqft
+    ... and 50 more parcels with violations
+
+SRA - Single Residence A
+  Total Parcels: 275
+  Parcels with Violations: 275
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 275
+    - incompatible_use: 57
+
+  Examples (first 5):
+    0206-0034-0000
+      • [major] Lot size 2 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in Single Residence A zone
+    0203-0006-0000
+      • [major] Lot size 1 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in Single Residence A zone
+    0203-0005-0000
+      • [major] Lot size 1 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in Single Residence A zone
+    0203-0003-0000
+      • [major] Lot size 1 sqft is below minimum 43560 sqft
+      • [critical] Land use 'two_family' not allowed in Single Residence A zone
+    0204-0015-0000
+      • [major] Lot size 2 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in Single Residence A zone
+    ... and 270 more parcels with violations
+
+I - Industrial
+  Total Parcels: 71
+  Parcels with Violations: 71
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 71
+    - incompatible_use: 71
+
+  Examples (first 5):
+    0263-0002-0000
+      • [major] Lot size 10 sqft is below minimum 87120 sqft
+      • [critical] Land use 'other' not allowed in Industrial zone
+    0285-0011-000B
+      • [major] Lot size 7 sqft is below minimum 87120 sqft
+      • [critical] Land use 'other' not allowed in Industrial zone
+    0284-0011-0000
+      • [major] Lot size 5 sqft is below minimum 87120 sqft
+      • [critical] Land use 'other' not allowed in Industrial zone
+    0285-0009-0000
+      • [major] Lot size 8 sqft is below minimum 87120 sqft
+      • [critical] Land use 'other' not allowed in Industrial zone
+    0279-0001-0000
+      • [major] Lot size 2 sqft is below minimum 87120 sqft
+      • [critical] Land use 'other' not allowed in Industrial zone
+    ... and 66 more parcels with violations
+
+WB - Waterfront Business
+  Total Parcels: 43
+  Parcels with Violations: 43
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 43
+    - incompatible_use: 41
+
+  Examples (first 5):
+    0102-0026-0000
+      • [major] Lot size 0 sqft is below minimum 20000 sqft
+      • [critical] Land use 'other' not allowed in Waterfront Business zone
+    0201-0012-0000
+      • [major] Lot size 3 sqft is below minimum 20000 sqft
+      • [critical] Land use 'other' not allowed in Waterfront Business zone
+    0223-0034-0000
+      • [major] Lot size 0 sqft is below minimum 20000 sqft
+    0101-0001-0000
+      • [major] Lot size 0 sqft is below minimum 20000 sqft
+      • [critical] Land use 'other' not allowed in Waterfront Business zone
+    0102-0040-0000
+      • [major] Lot size 0 sqft is below minimum 20000 sqft
+      • [critical] Land use 'other' not allowed in Waterfront Business zone
+    ... and 38 more parcels with violations
+
+GRB - General Residence B
+  Total Parcels: 523
+  Parcels with Violations: 523
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 523
+    - incompatible_use: 154
+
+  Examples (first 5):
+    0212-126A-0000
+      • [major] Lot size 0 sqft is below minimum 5000 sqft
+      • [critical] Land use 'other' not allowed in General Residence B zone
+    0213-0004-0000
+      • [major] Lot size 0 sqft is below minimum 5000 sqft
+    0213-0003-0000
+      • [major] Lot size 0 sqft is below minimum 5000 sqft
+    0213-0002-1500
+      • [major] Lot size 7 sqft is below minimum 5000 sqft
+      • [critical] Land use 'other' not allowed in General Residence B zone
+    0213-0010-0000
+      • [major] Lot size 0 sqft is below minimum 5000 sqft
+    ... and 518 more parcels with violations
+
+OR - Office Research
+  Total Parcels: 38
+  Parcels with Violations: 38
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 38
+    - incompatible_use: 26
+
+  Examples (first 5):
+    0216-0001-0010
+      • [major] Lot size 5 sqft is below minimum 130680 sqft
+    0216-0001-0009
+      • [major] Lot size 4 sqft is below minimum 130680 sqft
+    0215-0001-0000
+      • [major] Lot size 1 sqft is below minimum 130680 sqft
+      • [critical] Land use 'other' not allowed in Office Research zone
+    0215-0009-0000
+      • [major] Lot size 19 sqft is below minimum 130680 sqft
+      • [critical] Land use 'other' not allowed in Office Research zone
+    0216-0001-0001
+      • [major] Lot size 4 sqft is below minimum 130680 sqft
+      • [critical] Land use 'other' not allowed in Office Research zone
+    ... and 33 more parcels with violations
+
+WI - Waterfront Industrial
+  Total Parcels: 6
+  Parcels with Violations: 6
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 6
+    - incompatible_use: 6
+
+  Examples (first 5):
+    0213-0001-0000
+      • [major] Lot size 9 sqft is below minimum 87120 sqft
+      • [critical] Land use 'other' not allowed in Waterfront Industrial zone
+    0214-0003-0000
+      • [major] Lot size 39 sqft is below minimum 87120 sqft
+      • [critical] Land use 'other' not allowed in Waterfront Industrial zone
+    0211-0006-0000
+      • [major] Lot size 7 sqft is below minimum 87120 sqft
+      • [critical] Land use 'other' not allowed in Waterfront Industrial zone
+    0119-0006-0000
+      • [major] Lot size 3 sqft is below minimum 87120 sqft
+      • [critical] Land use 'other' not allowed in Waterfront Industrial zone
+    0211-0008-0000
+      • [major] Lot size 2 sqft is below minimum 87120 sqft
+      • [critical] Land use 'other' not allowed in Waterfront Industrial zone
+    ... and 1 more parcels with violations
+
+GRC - General Residence C
+  Total Parcels: 288
+  Parcels with Violations: 288
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 288
+    - incompatible_use: 73
+
+  Examples (first 5):
+    0136-0030-0000
+      • [major] Lot size 0 sqft is below minimum 3500 sqft
+    0145-0022-0000
+      • [major] Lot size 0 sqft is below minimum 3500 sqft
+      • [critical] Land use 'other' not allowed in General Residence C zone
+    0136-0026-0000
+      • [major] Lot size 0 sqft is below minimum 3500 sqft
+    0136-0005-0000
+      • [major] Lot size 0 sqft is below minimum 3500 sqft
+      • [critical] Land use 'other' not allowed in General Residence C zone
+    0145-0082-0000
+      • [major] Lot size 0 sqft is below minimum 3500 sqft
+    ... and 283 more parcels with violations
+
+MRB - Mixed Residential Business
+  Total Parcels: 25
+  Parcels with Violations: 25
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 25
+    - incompatible_use: 21
+
+  Examples (first 5):
+    0224-0006-0000
+      • [major] Lot size 0 sqft is below minimum 7500 sqft
+      • [critical] Land use 'other' not allowed in Mixed Residential Business zone
+    0224-0008-0000
+      • [major] Lot size 0 sqft is below minimum 7500 sqft
+      • [critical] Land use 'other' not allowed in Mixed Residential Business zone
+    0224-0009-0000
+      • [major] Lot size 0 sqft is below minimum 7500 sqft
+    0144-0047-0000
+      • [major] Lot size 1 sqft is below minimum 7500 sqft
+      • [critical] Land use 'other' not allowed in Mixed Residential Business zone
+    0201-0009-0000
+      • [major] Lot size 1 sqft is below minimum 7500 sqft
+      • [critical] Land use 'other' not allowed in Mixed Residential Business zone
+    ... and 20 more parcels with violations
+
+MRO - Mixed Residential Office
+  Total Parcels: 90
+  Parcels with Violations: 90
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 90
+    - incompatible_use: 36
+
+  Examples (first 5):
+    0223-025A-0000
+      • [major] Lot size 1 sqft is below minimum 7500 sqft
+      • [critical] Land use 'other' not allowed in Mixed Residential Office zone
+    0135-0046-0000
+      • [major] Lot size 0 sqft is below minimum 7500 sqft
+    0224-0015-0000
+      • [major] Lot size 2 sqft is below minimum 7500 sqft
+    0135-0041-0000
+      • [major] Lot size 0 sqft is below minimum 7500 sqft
+      • [critical] Land use 'other' not allowed in Mixed Residential Office zone
+    0135-0042-0000
+      • [major] Lot size 0 sqft is below minimum 7500 sqft
+      • [critical] Land use 'other' not allowed in Mixed Residential Office zone
+    ... and 85 more parcels with violations
+
+B - Business
+  Total Parcels: 18
+  Parcels with Violations: 18
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 18
+    - incompatible_use: 10
+
+  Examples (first 5):
+    0142-0038-0000
+      • [major] Lot size 0 sqft is below minimum 20000 sqft
+    0142-0017-000A
+      • [major] Lot size 0 sqft is below minimum 20000 sqft
+    0142-0016-0000
+      • [major] Lot size 0 sqft is below minimum 20000 sqft
+      • [critical] Land use 'other' not allowed in Business zone
+    0142-0039-0000
+      • [major] Lot size 0 sqft is below minimum 20000 sqft
+    0142-0037-0000
+      • [major] Lot size 4 sqft is below minimum 20000 sqft
+      • [critical] Land use 'other' not allowed in Business zone
+    ... and 13 more parcels with violations
+
+G2 - General Business 2
+  Total Parcels: 33
+  Parcels with Violations: 33
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 33
+    - incompatible_use: 27
+
+  Examples (first 5):
+    0218-0039-0000
+      • [major] Lot size 0 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business 2 zone
+    0253-0011-0000
+      • [major] Lot size 3 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business 2 zone
+    0253-0014-0000
+      • [major] Lot size 1 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business 2 zone
+    0210-0004-0000
+      • [major] Lot size 0 sqft is below minimum 43560 sqft
+      • [critical] Land use 'single_family' not allowed in General Business 2 zone
+    0252-0003-0000
+      • [major] Lot size 4 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business 2 zone
+    ... and 28 more parcels with violations
+
+GB - General Business
+  Total Parcels: 19
+  Parcels with Violations: 19
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 19
+    - incompatible_use: 18
+
+  Examples (first 5):
+    0234-0005-0000
+      • [major] Lot size 3 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business zone
+    0234-0051-0000
+      • [major] Lot size 18 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business zone
+    0175-0004-0000
+      • [major] Lot size 2 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business zone
+    0174-0013-0000
+      • [major] Lot size 0 sqft is below minimum 43560 sqft
+      • [critical] Land use 'other' not allowed in General Business zone
+    0174-0008-0000
+      • [major] Lot size 0 sqft is below minimum 43560 sqft
+      • [critical] Land use 'single_family' not allowed in General Business zone
+    ... and 14 more parcels with violations
+
+GA/MH - Garden Apartment/Mobile Home Park
+  Total Parcels: 20
+  Parcels with Violations: 20
+  Violation Rate: 100.0%
+
+  Violation Types:
+    - undersized_lot: 20
+    - incompatible_use: 20
+
+  Examples (first 5):
+    0291-0007-0000
+      • [major] Lot size 67 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Garden Apartment/Mobile Home Park zone
+    0291-0001-0001
+      • [major] Lot size 27 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Garden Apartment/Mobile Home Park zone
+    0286-0008-0000
+      • [major] Lot size 0 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Garden Apartment/Mobile Home Park zone
+    0286-0004-0000
+      • [major] Lot size 0 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Garden Apartment/Mobile Home Park zone
+    0286-0014-0000
+      • [major] Lot size 0 sqft is below minimum 217800 sqft
+      • [critical] Land use 'other' not allowed in Garden Apartment/Mobile Home Park zone
+    ... and 15 more parcels with violations
+
+================================================================================
+VIOLATION SUMMARY STATISTICS
+================================================================================
+
+Total Undersized Lots: 5,271
+Total Excess Lot Coverage: 0
+Total Incompatible Land Uses: 1,312
+Parcels Skipped (missing data): 0
+
+================================================================================
+KEY DIMENSIONAL REQUIREMENTS (from Official Ordinance)
+================================================================================
+
+Residential Zones:
+  R:   Minimum 217,800 sf (5 acres), Max 5% coverage
+  SRA: Minimum 43,560 sf (1 acre), Max 10% coverage
+  SRB: Minimum 15,000 sf, Max 20% coverage
+  GRA: Minimum 7,500 sf, Max 25% coverage
+  GRB: Minimum 5,000 sf, Max 30% coverage
+  GRC: Minimum 3,500 sf, Max 35% coverage
+
+Business Zones:
+  B/WB: Minimum 20,000 sf, Max 30-35% coverage
+  GB/G1/G2: Minimum 43,560 sf (1 acre), Max 30% coverage
+
+Industrial Zones:
+  I/WI: Minimum 87,120 sf (2 acres), Max 50% coverage
+  OR: Minimum 130,680 sf (3 acres), Max 30% coverage
+
+================================================================================
+END OF REPORT
+================================================================================

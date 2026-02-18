@@ -1,7 +1,7 @@
 {
   "metadata": {
     "description": "Errors encountered during parcel enrichment pipeline",
-    "generated_at": "2026-02-17T01:41:45.948Z",
+    "generated_at": "2026-02-18T16:39:02.857Z",
     "total_errors": 42
   },
   "summary": {
@@ -18,294 +18,294 @@
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0236-0036-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T00:07:06.702Z"
+      "timestamp": "2026-02-18T16:29:52.149Z"
     },
     {
       "parcel_id": "0220-0087-0002",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0220-0087-0002 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:07:54.495Z"
+      "timestamp": "2026-02-18T16:30:07.472Z"
     },
     {
       "parcel_id": "0282-0006-0023",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0282-0006-0023 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T00:09:02.768Z"
+      "timestamp": "2026-02-18T16:30:23.505Z"
     },
     {
       "parcel_id": "0212-0112-0001",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0212-0112-0001 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:09:45.394Z"
+      "timestamp": "2026-02-18T16:30:40.155Z"
     },
     {
       "parcel_id": "0206-0018-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0206-0018-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T00:09:53.718Z"
+      "timestamp": "2026-02-18T16:30:45.239Z"
     },
     {
       "parcel_id": "0207-0069-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0207-0069-0000 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:10:27.467Z"
+      "timestamp": "2026-02-18T16:30:55.860Z"
     },
     {
       "parcel_id": "0207-0068-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0207-0068-0000 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:10:26.441Z"
+      "timestamp": "2026-02-18T16:30:56.272Z"
     },
     {
       "parcel_id": "0126-0019-000A",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0126-0019-000A after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:11:36.855Z"
+      "timestamp": "2026-02-18T16:31:38.304Z"
     },
     {
       "parcel_id": "0108-0003-0001",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0108-0003-0001 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:12:42.195Z"
+      "timestamp": "2026-02-18T16:32:55.583Z"
     },
     {
       "parcel_id": "0123-0012-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0123-0012-0000 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:13:37.970Z"
+      "timestamp": "2026-02-18T16:33:53.636Z"
     },
     {
       "parcel_id": "0123-0014-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0123-0014-0000 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:13:38.023Z"
+      "timestamp": "2026-02-18T16:33:53.949Z"
     },
     {
       "parcel_id": "0268-0012-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0268-0012-0000 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:13:44.929Z"
+      "timestamp": "2026-02-18T16:33:58.452Z"
     },
     {
       "parcel_id": "0297-0011-0008",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0297-0011-0008 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:13:59.868Z"
+      "timestamp": "2026-02-18T16:34:20.980Z"
     },
     {
       "parcel_id": "0146-0008-0001",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0146-0008-0001 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:14:10.547Z"
+      "timestamp": "2026-02-18T16:34:28.646Z"
     },
     {
       "parcel_id": "0226-0001-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0226-0001-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T00:15:00.860Z"
+      "timestamp": "2026-02-18T16:34:48.646Z"
     },
     {
       "parcel_id": "0220-0047-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0220-0047-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T00:15:54.277Z"
+      "timestamp": "2026-02-18T16:35:01.627Z"
     },
     {
       "parcel_id": "0268-0029-0001",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0268-0029-0001 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:16:11.926Z"
+      "timestamp": "2026-02-18T16:35:08.114Z"
     },
     {
       "parcel_id": "0101-0045-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0101-0045-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T00:17:52.136Z"
+      "timestamp": "2026-02-18T16:35:38.411Z"
     },
     {
       "parcel_id": "0101-0021-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0101-0021-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T00:17:52.123Z"
+      "timestamp": "2026-02-18T16:35:38.206Z"
     },
     {
       "parcel_id": "0101-0051-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0101-0051-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T00:17:56.746Z"
+      "timestamp": "2026-02-18T16:35:42.200Z"
     },
     {
       "parcel_id": "0157-0002-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0157-0002-0000 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:35:13.833Z"
+      "timestamp": "2026-02-18T16:36:06.369Z"
     },
     {
       "parcel_id": "0104-0008-0001",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0104-0008-0001 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:35:35.451Z"
+      "timestamp": "2026-02-18T16:36:14.506Z"
     },
     {
       "parcel_id": "0104-0010-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0104-0010-0000 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:35:40.558Z"
+      "timestamp": "2026-02-18T16:36:14.506Z"
     },
     {
       "parcel_id": "0116-0032-0001",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0116-0032-0001 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T00:42:27.801Z"
+      "timestamp": "2026-02-18T16:36:24.730Z"
     },
     {
       "parcel_id": "0308-0000-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0308-0000-0000 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T01:08:10.656Z"
+      "timestamp": "2026-02-18T16:36:44.280Z"
     },
     {
       "parcel_id": "0309-0008-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0309-0008-0000 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T01:08:32.146Z"
+      "timestamp": "2026-02-18T16:37:01.627Z"
     },
     {
       "parcel_id": "0292-0151-0001",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0292-0151-0001 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T01:08:37.712Z"
+      "timestamp": "2026-02-18T16:37:07.569Z"
     },
     {
       "parcel_id": "0236-0035-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0236-0035-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T01:08:41.366Z"
+      "timestamp": "2026-02-18T16:37:11.013Z"
     },
     {
       "parcel_id": "0236-0034-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0236-0034-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T01:08:41.367Z"
+      "timestamp": "2026-02-18T16:37:11.297Z"
     },
     {
       "parcel_id": "0219-0031-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0219-0031-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T01:08:41.256Z"
+      "timestamp": "2026-02-18T16:37:11.277Z"
     },
     {
       "parcel_id": "0219-0029-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0219-0029-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T01:08:44.701Z"
+      "timestamp": "2026-02-18T16:37:14.664Z"
     },
     {
       "parcel_id": "0147-0002-0001",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0147-0002-0001 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T01:08:54.814Z"
+      "timestamp": "2026-02-18T16:37:28.069Z"
     },
     {
       "parcel_id": "0260-0141-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0260-0141-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T01:24:22.558Z"
+      "timestamp": "2026-02-18T16:37:37.307Z"
     },
     {
       "parcel_id": "0101-0017-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0101-0017-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T01:24:26.612Z"
+      "timestamp": "2026-02-18T16:37:41.745Z"
     },
     {
       "parcel_id": "0219-0063-0002",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0219-0063-0002 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T01:24:34.960Z"
+      "timestamp": "2026-02-18T16:37:52.718Z"
     },
     {
       "parcel_id": "0293-0005-0004",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0293-0005-0004 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T01:24:39.350Z"
+      "timestamp": "2026-02-18T16:37:56.196Z"
     },
     {
       "parcel_id": "0219-0003-0001",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0219-0003-0001 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T01:24:39.528Z"
+      "timestamp": "2026-02-18T16:37:56.376Z"
     },
     {
       "parcel_id": "0162-0041-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0162-0041-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T01:24:53.969Z"
+      "timestamp": "2026-02-18T16:38:14.818Z"
     },
     {
       "parcel_id": "0247-0026-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
-      "message": "Failed to fetch Map Geo data for parcel 0247-0026-0000 after 3 attempts: fetch failed",
-      "timestamp": "2026-02-17T01:41:15.227Z"
+      "message": "Failed to fetch Map Geo data for parcel 0247-0026-0000 after 3 attempts: HTTP 401: Unauthorized",
+      "timestamp": "2026-02-18T16:38:23.980Z"
     },
     {
       "parcel_id": "0124-0006-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0124-0006-0000 after 3 attempts: HTTP 401: Unauthorized",
-      "timestamp": "2026-02-17T01:41:20.005Z"
+      "timestamp": "2026-02-18T16:38:27.940Z"
     },
     {
       "parcel_id": "0123-0010-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0123-0010-0000 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T01:41:20.170Z"
+      "timestamp": "2026-02-18T16:38:28.419Z"
     },
     {
       "parcel_id": "0308-0000-0000",
       "stage": "mapgeo_fetch",
       "error_type": "APIFetchError",
       "message": "Failed to fetch Map Geo data for parcel 0308-0000-0000 after 3 attempts: HTTP 404: Not Found",
-      "timestamp": "2026-02-17T01:41:27.660Z"
+      "timestamp": "2026-02-18T16:38:38.609Z"
     }
   ]
 }

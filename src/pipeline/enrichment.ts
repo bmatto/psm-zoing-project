@@ -165,8 +165,8 @@ export class EnrichmentPipeline {
     // Parse numeric values with fallbacks
     const totalValue = this.parseNumber(data.totalValue, 0);
     const landValue = this.parseNumber(data.landValue, 0);
-    const parcelAreaSqft = this.parseNumber(data.parcelArea, 0);
-    const parcelAreaAcres = parcelAreaSqft / 43560; // Convert sqft to acres
+    const parcelAreaAcres = this.parseNumber(data.parcelArea, 0); // MapGeo API returns acres
+    const parcelAreaSqft = parcelAreaAcres * 43560; // Convert acres to sqft
 
     // Building measurements - not available without VGSI integration
     const buildingFootprint = 0;
