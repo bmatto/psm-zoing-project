@@ -23,14 +23,6 @@
 
 This document describes the methodology used for collecting, enriching, and analyzing parcel data for the City of Portsmouth, NH. The analysis combines information from multiple authoritative sources to create a comprehensive dataset for zoning analysis.
 
-### Core Principles
-
-The Portsmouth Zoning Analysis follows three core principles documented in [CLAUDE.md](../CLAUDE.md):
-
-1. **Accuracy Above All**: Data integrity is prioritized over processing speed
-2. **Thoroughness in Parcel Discovery**: Every parcel must be accounted for
-3. **Certainty in Data Enrichment**: All data is validated before incorporation
-
 ### Technology Stack
 
 - **Runtime**: Node.js 20+ (LTS)
@@ -569,7 +561,6 @@ if (timeSinceLastRequest < minRequestInterval) {
 - [src/analyze.ts](../src/analyze.ts) - Main script with comprehensive documentation
 
 ### Project Documentation
-- [CLAUDE.md](../CLAUDE.md) - Core principles and development guidelines
 - [README.md](../README.md) - Project overview and setup instructions
 
 ---
