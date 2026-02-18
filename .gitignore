@@ -1,4 +1,11 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
-Parcels.csv
+
+# Output directory (generated files)
+output/
+
+# Temporary files
 ralph-backup-wrong-location/
