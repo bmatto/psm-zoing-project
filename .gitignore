@@ -9,3 +9,9 @@ output/
 
 # Temporary files
 ralph-backup-wrong-location/
+
+# Project documentation (local only, not for repo)
+CLAUDE.md
+
+# Deprecated/archived code (keep local, not in repo)
+deprecated/
