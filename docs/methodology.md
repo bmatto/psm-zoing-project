@@ -1,7 +1,7 @@
 # Portsmouth Zoning Analysis Methodology
 
-**Version:** 2.0 (TypeScript Implementation)
-**Last Updated:** 2026-02-16
+**Version:** 3.0 (TypeScript Implementation with Report Generation)
+**Last Updated:** 2026-02-18
 **Project:** Portsmouth Zoning Analysis
 
 ---
@@ -10,25 +10,46 @@
 
 1. [Overview](#overview)
 2. [Data Sources](#data-sources)
-3. [Data Enrichment Pipeline](#data-enrichment-pipeline)
-4. [Calculations and Derived Fields](#calculations-and-derived-fields)
-5. [Validation and Quality Assurance](#validation-and-quality-assurance)
-6. [Output Format](#output-format)
-7. [Error Handling](#error-handling)
-8. [Code References](#code-references)
+3. [Zoning Rules System](#zoning-rules-system)
+4. [Data Enrichment Pipeline](#data-enrichment-pipeline)
+5. [Calculations and Derived Fields](#calculations-and-derived-fields)
+6. [Report Generation](#report-generation)
+7. [Validation and Quality Assurance](#validation-and-quality-assurance)
+8. [Output Format](#output-format)
+9. [Error Handling](#error-handling)
+10. [Code References](#code-references)
 
 ---
 
 ## Overview
 
-This document describes the methodology used for collecting, enriching, and analyzing parcel data for the City of Portsmouth, NH. The analysis combines information from multiple authoritative sources to create a comprehensive dataset for zoning analysis.
+This document describes the methodology used for collecting, enriching, and analyzing parcel data for the City of Portsmouth, NH. The system operates in two phases:
+
+**Phase 1: Data Enrichment** - Combines information from multiple authoritative sources to create a comprehensive parcel dataset with geographic, zoning, and building data.
+
+**Phase 2: Report Generation** - Analyzes enriched data to identify zoning violations, calculate infrastructure burden, and assess fiscal sustainability across different zoning districts.
 
 ### Technology Stack
 
 - **Runtime**: Node.js 20+ (LTS)
 - **Language**: TypeScript with strict type checking
 - **Testing**: Vitest test framework
-- **Entry Point**: `src/analyze.ts`
+- **Data Enrichment Entry Point**: `src/analyze.ts`
+- **Report Generation Entry Point**: `src/generate-reports.ts`
+
+### Workflow
+
+1. **Data Collection** (`npm run analyze`)
+   - Load master parcel list from State GIS
+   - Enrich with Map Geo API (zoning, values, ownership)
+   - Enrich with VGSI API (building measurements)
+   - Validate and write enriched data to JSON
+
+2. **Analysis & Reporting** (`npm run report`)
+   - Calculate zone-level metrics (land distribution, revenue)
+   - Identify zoning violations (lot size, coverage, land use)
+   - Calculate infrastructure burden and fiscal sustainability
+   - Generate human-readable reports and structured JSON outputs
 
 ---
 
@@ -114,6 +135,103 @@ The VGSI API returns HTML pages, not JSON. The client uses multiple regex patter
 ```
 
 **Fallback Behavior:** If building footprint is not found but living area is present, living area is used as building footprint.
+
+---
+
+## Zoning Rules System
+
+The project includes a comprehensive database of Portsmouth zoning ordinance rules that are used for violations checking and infrastructure burden analysis.
+
+### Implementation
+
+**Module:** `src/zoning/rules.ts`
+
+**Source:** Portsmouth Zoning Ordinance (as amended through May 5, 2025)
+- Tables 10.521 (Residential Zones)
+- Tables 10.531 (Business/Industrial Zones)
+- **Reference:** https://files.portsmouthnh.gov/files/planning/ZoningOrd-250505+ADOPTED.pdf
+
+### Zoning Rules Data Structure
+
+Each zoning district has the following dimensional requirements:
+
+```typescript
+interface ZoneRules {
+  name: string;                      // Full zone name
+  min_lot_size_sqft: number | null;  // Minimum lot size (square feet)
+  min_frontage_ft: number | null;    // Minimum street frontage (feet)
+  max_lot_coverage_pct: number | null; // Maximum building coverage (%)
+  min_open_space_pct: number | null; // Minimum open space (%)
+  front_setback_ft: number | null;   // Front setback requirement (feet)
+  side_setback_ft: number | null;    // Side setback requirement (feet)
+  rear_setback_ft: number | null;    // Rear setback requirement (feet)
+  allowed_uses: LandUseType[];       // Permitted land uses
+}
+```
+
+### Covered Zoning Districts
+
+**Residential Districts:**
+- `R` - Residential (5 acres, 5% max coverage)
+- `SRA` - Single Residence A (1 acre, 10% max coverage)
+- `SRB` - Single Residence B (15,000 sqft, 20% max coverage)
+- `GRA` - General Residence A (7,500 sqft, 25% max coverage)
+- `GRB` - General Residence B (5,000 sqft, 30% max coverage)
+- `GRC` - General Residence C (3,500 sqft, 35% max coverage)
+- `MRO` - Mixed Residential Office
+- `MRB` - Mixed Residential Business
+- `GA/MH` - Garden Apartment/Mobile Home Park
+
+**Business/Commercial Districts:**
+- `B` - Business
+- `GB` - General Business
+- `G1` - General Business 1
+- `G2` - General Business 2
+- `WB` - Waterfront Business
+- Character Districts (CD4, CD4-L1, CD4-L2, CD4-W, CD5)
+- Special Districts (ABC, AI, AIR, Civic, GW, TC)
+
+**Industrial Districts:**
+- `I` - Industrial
+- `WI` - Waterfront Industrial
+- `OR` - Office Research
+- `LI` - Light Industrial
+
+**Other Districts:**
+- `M` - Municipal
+- `NRP` - Natural Resource Protection
+- `PI` - Public Institutional
+- `E` - Education
+- Various specialized zones
+
+### Land Use Classification
+
+**Function:** `classifyLandUse()`
+
+Maps property descriptions to standardized land use types:
+
+**Land Use Types:**
+- `single_family` - Single-family residential
+- `two_family` - Two-family residential
+- `multi_family` - Multi-family residential, condos, apartments
+- `accessory_dwelling` - Accessory dwelling units
+- `commercial` - Commercial uses
+- `retail` - Retail uses
+- `office` - Office uses
+- `industrial` - Industrial uses
+- `manufacturing` - Manufacturing uses
+- `municipal` - Municipal uses
+- `public` - Public uses
+- `mixed_use` - Mixed-use developments
+- `mobile_home` - Mobile home parks
+- `marine` - Marine/waterfront uses
+- `research` - Research facilities
+- `technology` - Technology facilities
+- `conservation` - Conservation land
+- `agriculture` - Agricultural uses
+- `vacant` - Vacant parcels
+- `other` - Other uses
+- `unknown` - Unknown or unclassified
 
 ---
 
@@ -222,6 +340,8 @@ parcel_area_acres = parcelArea / 43560  // Convert sqft to acres
 
 **Source:** Standard conversion factor (1 acre = 43,560 square feet)
 
+**Implementation:** `src/pipeline/enrichment.ts`
+
 ### Lot Coverage Percentage
 
 **Purpose:** Measure how much of the parcel is covered by buildings
@@ -252,6 +372,295 @@ lot_coverage_pct = (building_footprint_sqft / parcel_area_sqft) * 100
 total_value = parseFloat(String(totalValue)) || 0
 land_value = parseFloat(String(landValue)) || 0
 ```
+
+**Implementation:** `src/pipeline/enrichment.ts`
+
+---
+
+## Report Generation
+
+After data enrichment completes, a separate report generation system analyzes the enriched data to produce comprehensive zoning analysis reports.
+
+**Entry Point:** `src/generate-reports.ts`
+
+### Report Generation Architecture
+
+Report generation is **completely separate** from data enrichment:
+- **Input:** Reads from `output/portsmouth_properties_full.json`
+- **No API calls:** Works entirely with cached enriched data
+- **Fast:** Generates reports in seconds without network requests
+- **Repeatable:** Can re-run reports without re-fetching data
+
+### Report Types
+
+The system generates three types of reports that can be run individually or together:
+
+#### 1. Zone Metrics Analysis
+
+**Module:** `src/analysis/zone-metrics.ts`
+
+Aggregates parcel data by zoning district to calculate:
+- Total land area per zone (acres)
+- Total assessed value per zone
+- Revenue density (dollars per acre)
+- Parcel count per zone
+- Land use breakdown within each zone
+
+**Output:** Used in comprehensive zoning report
+
+#### 2. Zoning Violations Analysis
+
+**Module:** `src/analysis/violations.ts`
+
+Checks every parcel against Portsmouth zoning ordinance requirements to identify:
+
+**Violation Types:**
+
+1. **Undersized Lot** (Major)
+   - Parcel area < minimum lot size for zone
+   - Calculates deficit (how many sqft short)
+
+2. **Excess Lot Coverage** (Major)
+   - Building footprint percentage > maximum allowed
+   - Calculates excess percentage over limit
+
+3. **Incompatible Use** (Critical)
+   - Current land use not permitted in zone
+   - Identifies current use and allowed uses
+
+**Analysis Output:**
+- Total violations by type
+- Violations grouped by zone
+- Parcels with violations (with parcel IDs)
+- Detailed violation descriptions
+
+**Files Generated:**
+- `violations_analysis.json` - Structured violations data
+- Comprehensive report includes violations summary
+
+**Implementation Details:**
+- Uses `ZONING_RULES` from `src/zoning/rules.ts`
+- Function: `checkZoningViolations()` - Validates single parcel
+- Function: `analyzeViolations()` - Analyzes all parcels
+
+#### 3. Infrastructure Burden Analysis
+
+**Module:** `src/analysis/infrastructure-burden.ts`
+
+Calculates the relationship between zoning density, tax revenue, and estimated municipal service costs.
+
+**Key Insight:** Lower density zones require MORE infrastructure per capita (longer roads, utility lines, emergency service coverage) but generate LESS tax revenue per acre.
+
+**Metrics Calculated:**
+
+For each zone:
+- Total acres and parcel count
+- Average lot size (sqft and acres)
+- Parcels per acre (density metric)
+- Revenue per parcel
+- Revenue per acre
+- Estimated linear infrastructure (feet of road/utilities per parcel)
+- Estimated infrastructure cost per parcel
+- Density factor (inverse of parcels per acre)
+- **Fiscal sustainability ratio** (revenue / infrastructure cost)
+
+**Infrastructure Cost Estimation:**
+```typescript
+// Assumes $500/linear foot for roads + utilities (conservative)
+estimated_cost = min_frontage_ft * 500
+
+// For a parcel with 150ft frontage:
+estimated_cost = 150 * 500 = $75,000
+```
+
+**Fiscal Sustainability Ratio:**
+```typescript
+fiscal_ratio = revenue_per_parcel / est_infrastructure_cost_per_parcel
+
+// Higher is better:
+// > 1.0 = Revenue exceeds infrastructure cost (fiscally positive)
+// < 1.0 = Infrastructure cost exceeds revenue (fiscally negative)
+```
+
+**Aggregate Analysis:**
+
+Compares single-family vs multi-family zones:
+- **Single-family aggregate:** R, SRA, SRB zones
+- **Multi-family aggregate:** GRA, GRB, GRC zones
+
+**Files Generated:**
+- `infrastructure_metrics.json` - Structured infrastructure data
+- `Portsmouth_Infrastructure_Burden_[timestamp].txt` - Human-readable report
+
+### Report Generation Modes
+
+**Command:** `npm run report` or `npx tsx src/generate-reports.ts [options]`
+
+**Modes:**
+
+1. **All Reports (Default)**
+   ```bash
+   npm run report
+   ```
+   Generates:
+   - Comprehensive zoning report (zone metrics + violations)
+   - Infrastructure burden report
+   - All JSON data files
+
+2. **Infrastructure Only**
+   ```bash
+   npm run report:infrastructure
+   ```
+   Generates:
+   - Infrastructure burden report
+   - infrastructure_metrics.json
+
+3. **Violations Only**
+   ```bash
+   npm run report:violations
+   ```
+   Generates:
+   - Comprehensive zoning report (with violations)
+   - violations_analysis.json
+
+### Report Output Files
+
+#### Comprehensive Zoning Report
+
+**File:** `output/Portsmouth_Zoning_Report_[timestamp].txt`
+
+**Format:** Human-readable text report
+
+**Contents:**
+1. **Header** - Report metadata and timestamp
+2. **Zone Distribution** - Land area and parcel count by zone
+3. **Revenue Analysis** - Total assessed value and revenue density by zone
+4. **Land Use Analysis** - Breakdown of land uses within each zone
+5. **Violations Summary** - Total violations by type and zone
+6. **Detailed Violations** - Specific parcels with violations
+
+**Implementation:** `src/reports/comprehensive-report.ts`
+
+#### Infrastructure Burden Report
+
+**File:** `output/Portsmouth_Infrastructure_Burden_[timestamp].txt`
+
+**Format:** Human-readable text report
+
+**Contents:**
+1. **Header** - Report metadata and methodology explanation
+2. **Zone Analysis** - Detailed metrics for each zone
+3. **Fiscal Sustainability Rankings** - Zones ordered by fiscal ratio
+4. **Single-Family vs Multi-Family Comparison** - Aggregate metrics
+5. **Policy Implications** - Analysis of findings
+
+**Implementation:** `src/reports/infrastructure-report.ts`
+
+#### JSON Data Files
+
+**1. violations_analysis.json**
+```json
+{
+  "total_violations": 123,
+  "total_parcels_with_violations": 98,
+  "violations_by_zone": {
+    "GRC": {
+      "total_violations": 45,
+      "undersized_lot_count": 30,
+      "excess_coverage_count": 15,
+      "incompatible_use_count": 0,
+      "parcels_with_violations": ["123-45", "234-56"],
+      "violations_by_parcel": {
+        "123-45": [
+          {
+            "type": "undersized_lot",
+            "severity": "major",
+            "description": "Lot size 2800 sqft is below minimum 3500 sqft",
+            "deficit": 700
+          }
+        ]
+      }
+    }
+  },
+  "violation_type_summary": {
+    "undersized_lot": 80,
+    "excess_lot_coverage": 35,
+    "incompatible_use": 8
+  }
+}
+```
+
+**2. infrastructure_metrics.json**
+```json
+{
+  "zones": {
+    "SRA": {
+      "zone_name": "Single Residence A",
+      "total_acres": 1234.56,
+      "parcel_count": 450,
+      "total_value": 180000000,
+      "avg_lot_size_sqft": 119592,
+      "avg_lot_size_acres": 2.745,
+      "parcels_per_acre": 0.36,
+      "revenue_per_parcel": 400000,
+      "revenue_per_acre": 145800,
+      "min_frontage_ft": 150,
+      "min_lot_size_sqft": 43560,
+      "estimated_linear_infrastructure_ft": 67500,
+      "est_infrastructure_cost_per_parcel": 75000,
+      "density_factor": 2.747,
+      "fiscal_sustainability_ratio": 5.33
+    }
+  },
+  "single_family_aggregate": {
+    "total_parcels": 1200,
+    "total_acres": 3500,
+    "total_revenue": 450000000,
+    "revenue_per_parcel": 375000,
+    "revenue_per_acre": 128571,
+    "infrastructure_per_parcel": 150,
+    "cost_per_parcel": 75000,
+    "fiscal_ratio": 5.0
+  },
+  "multi_family_aggregate": {
+    "total_parcels": 800,
+    "total_acres": 500,
+    "total_revenue": 280000000,
+    "revenue_per_parcel": 350000,
+    "revenue_per_acre": 560000,
+    "infrastructure_per_parcel": 80,
+    "cost_per_parcel": 40000,
+    "fiscal_ratio": 8.75
+  }
+}
+```
+
+### Report Generation Workflow
+
+1. **Read Enriched Data**
+   - Load `output/portsmouth_properties_full.json`
+   - Validate file format (supports both wrapped and array formats)
+   - Filter out parcels with missing required fields
+
+2. **Run Analysis Modules**
+   - Calculate zone metrics (aggregation by zone)
+   - Analyze violations (check against zoning rules)
+   - Calculate infrastructure burden (fiscal sustainability)
+
+3. **Generate Human-Readable Reports**
+   - Format data into comprehensive text reports
+   - Add timestamps and metadata
+   - Write to output directory with timestamp in filename
+
+4. **Write Structured JSON Files**
+   - Export detailed analysis data as JSON
+   - Enable programmatic access to results
+   - Support further analysis or visualization
+
+5. **Display Summary**
+   - Show count of parcels analyzed
+   - Display total violations found
+   - List all generated files
 
 ---
 
@@ -358,9 +767,15 @@ All validation errors include:
 
 ## Output Format
 
-All output files are written to the `output/` directory in JSON format.
+The system generates two categories of output files in the `output/` directory:
+1. **Enrichment Outputs** - Generated by `npm run analyze` (data enrichment)
+2. **Report Outputs** - Generated by `npm run report` (analysis reports)
 
-### 1. portsmouth_properties_full.json
+### Enrichment Output Files
+
+Generated by the data enrichment pipeline (`src/analyze.ts`):
+
+#### 1. portsmouth_properties_full.json
 
 Successfully enriched parcels with complete metadata.
 
@@ -400,7 +815,7 @@ Successfully enriched parcels with complete metadata.
 
 **Implementation:** `src/output/writer.ts` - `writeEnrichedParcels()`
 
-### 2. enrichment_errors.json
+#### 2. enrichment_errors.json
 
 Parcels that failed enrichment with error details grouped for analysis.
 
@@ -443,7 +858,7 @@ Parcels that failed enrichment with error details grouped for analysis.
 
 **Implementation:** `src/output/writer.ts` - `writeErrorReport()`
 
-### 3. analysis_summary.json
+#### 3. analysis_summary.json
 
 Processing statistics and metadata about the enrichment run.
 
@@ -467,6 +882,149 @@ Processing statistics and metadata about the enrichment run.
 ```
 
 **Implementation:** `src/output/writer.ts` - `writeAnalysisSummary()`
+
+### Report Output Files
+
+Generated by the report generation system (`src/generate-reports.ts`):
+
+#### 4. Portsmouth_Zoning_Report_[timestamp].txt
+
+**Format:** Human-readable text report
+
+**Purpose:** Comprehensive zoning analysis with zone metrics, land distribution, revenue analysis, and violations.
+
+**Structure:**
+```
+PORTSMOUTH ZONING ANALYSIS REPORT
+Generated: February 18, 2026, 10:30:45 AM
+==================================================
+
+ZONE DISTRIBUTION
+--------------------------------------------------
+Zone: SRA (Single Residence A)
+  Total Area: 1,234.56 acres
+  Parcel Count: 450
+  Average Lot Size: 2.75 acres
+
+REVENUE ANALYSIS
+--------------------------------------------------
+Zone: SRA
+  Total Value: $180,000,000
+  Revenue Density: $145,800/acre
+  Revenue per Parcel: $400,000
+
+VIOLATIONS SUMMARY
+--------------------------------------------------
+Total Violations: 123
+Parcels Affected: 98
+
+By Type:
+  Undersized Lot: 80
+  Excess Lot Coverage: 35
+  Incompatible Use: 8
+
+By Zone:
+  GRC: 45 violations
+  GRB: 30 violations
+  ...
+```
+
+**Implementation:** `src/reports/comprehensive-report.ts` - `generateComprehensiveReport()`
+
+#### 5. violations_analysis.json
+
+**Format:** Structured JSON
+
+**Purpose:** Machine-readable violations data for programmatic analysis.
+
+**Contents:**
+- Total violations count
+- Total parcels with violations
+- Violations grouped by zone (with parcel IDs and details)
+- Violation type summary (undersized_lot, excess_coverage, incompatible_use)
+
+See [Report Generation](#report-generation) section for detailed structure.
+
+**Implementation:** `src/analysis/violations.ts` - `analyzeViolations()`
+
+#### 6. Portsmouth_Infrastructure_Burden_[timestamp].txt
+
+**Format:** Human-readable text report
+
+**Purpose:** Infrastructure burden and fiscal sustainability analysis.
+
+**Structure:**
+```
+PORTSMOUTH INFRASTRUCTURE BURDEN ANALYSIS
+Generated: February 18, 2026, 10:30:45 AM
+==================================================
+
+METHODOLOGY
+--------------------------------------------------
+This analysis estimates the relationship between zoning
+density, tax revenue, and municipal infrastructure costs.
+
+Key assumption: $500/linear foot for roads and utilities
+(conservative estimate including construction and maintenance)
+
+ZONE ANALYSIS
+--------------------------------------------------
+Zone: SRA (Single Residence A)
+  Parcels: 450
+  Total Area: 1,234.56 acres
+  Avg Lot Size: 2.75 acres (119,592 sqft)
+  Min Frontage Required: 150 feet
+
+  Revenue per Parcel: $400,000
+  Revenue per Acre: $145,800
+
+  Est. Infrastructure per Parcel: 150 ft
+  Est. Cost per Parcel: $75,000
+
+  Fiscal Sustainability Ratio: 5.33
+  (Revenue is 5.33x infrastructure cost)
+
+FISCAL SUSTAINABILITY RANKINGS
+--------------------------------------------------
+1. GRC: Ratio 8.75 (Most sustainable)
+2. GRB: Ratio 7.20
+3. GRA: Ratio 6.50
+...
+
+SINGLE-FAMILY vs MULTI-FAMILY COMPARISON
+--------------------------------------------------
+Single-Family Zones (R, SRA, SRB):
+  Total Parcels: 1,200
+  Revenue per Parcel: $375,000
+  Cost per Parcel: $75,000
+  Fiscal Ratio: 5.0
+
+Multi-Family Zones (GRA, GRB, GRC):
+  Total Parcels: 800
+  Revenue per Parcel: $350,000
+  Cost per Parcel: $40,000
+  Fiscal Ratio: 8.75
+
+Finding: Multi-family zones are more fiscally sustainable
+despite lower per-parcel revenue due to shared infrastructure.
+```
+
+**Implementation:** `src/reports/infrastructure-report.ts` - `generateInfrastructureReport()`
+
+#### 7. infrastructure_metrics.json
+
+**Format:** Structured JSON
+
+**Purpose:** Machine-readable infrastructure burden data.
+
+**Contents:**
+- Metrics for each zone (acres, revenue, infrastructure costs, fiscal ratios)
+- Single-family aggregate metrics
+- Multi-family aggregate metrics
+
+See [Report Generation](#report-generation) section for detailed structure.
+
+**Implementation:** `src/analysis/infrastructure-burden.ts` - `calculateInfrastructureMetrics()`
 
 ---
 
@@ -532,6 +1090,10 @@ if (timeSinceLastRequest < minRequestInterval) {
 
 ## Code References
 
+### Main Entry Points
+- [src/analyze.ts](../src/analyze.ts) - Data enrichment entry point
+- [src/generate-reports.ts](../src/generate-reports.ts) - Report generation entry point
+
 ### Type Definitions
 - [src/types/index.ts](../src/types/index.ts) - All TypeScript interfaces
 
@@ -545,6 +1107,24 @@ if (timeSinceLastRequest < minRequestInterval) {
 - [src/api/vgsi-client.ts](../src/api/vgsi-client.ts) - VGSI API client with HTML parsing
 - [src/api/vgsi-client.test.ts](../src/api/vgsi-client.test.ts) - VGSI tests
 
+### Zoning Rules System
+- [src/zoning/rules.ts](../src/zoning/rules.ts) - Portsmouth zoning ordinance rules
+  - Zone dimensional requirements (lot size, setbacks, coverage)
+  - Land use classification system
+  - Allowed uses by zone
+
+### Analysis Modules
+- [src/analysis/zone-metrics.ts](../src/analysis/zone-metrics.ts) - Zone-level aggregation
+- [src/analysis/zone-metrics.test.ts](../src/analysis/zone-metrics.test.ts) - Zone metrics tests
+- [src/analysis/violations.ts](../src/analysis/violations.ts) - Zoning violations checker
+- [src/analysis/violations.test.ts](../src/analysis/violations.test.ts) - Violations tests
+- [src/analysis/infrastructure-burden.ts](../src/analysis/infrastructure-burden.ts) - Infrastructure burden calculator
+- [src/analysis/infrastructure-burden.test.ts](../src/analysis/infrastructure-burden.test.ts) - Infrastructure tests
+
+### Report Generators
+- [src/reports/comprehensive-report.ts](../src/reports/comprehensive-report.ts) - Comprehensive zoning report formatter
+- [src/reports/infrastructure-report.ts](../src/reports/infrastructure-report.ts) - Infrastructure burden report formatter
+
 ### Data Validation
 - [src/validators/data-validator.ts](../src/validators/data-validator.ts) - All validation logic
 - [src/validators/data-validator.test.ts](../src/validators/data-validator.test.ts) - Validation tests (51 test cases)
@@ -557,9 +1137,6 @@ if (timeSinceLastRequest < minRequestInterval) {
 - [src/output/writer.ts](../src/output/writer.ts) - Output file generation
 - [src/output/writer.test.ts](../src/output/writer.test.ts) - Output tests
 
-### Main Entry Point
-- [src/analyze.ts](../src/analyze.ts) - Main script with comprehensive documentation
-
 ### Project Documentation
 - [README.md](../README.md) - Project overview and setup instructions
 
@@ -567,7 +1144,15 @@ if (timeSinceLastRequest < minRequestInterval) {
 
 ## Running the Analysis
 
-### Prerequisites
+The analysis is run in two phases:
+
+### Phase 1: Data Enrichment
+
+**Command:** `npm run analyze`
+
+**Purpose:** Collect and enrich parcel data from APIs
+
+**Prerequisites:**
 ```bash
 # Install dependencies
 npm install
@@ -575,9 +1160,12 @@ npm install
 # Ensure Portsmouth_Parcels.csv exists in project root
 ```
 
-### Execution
+**Execution:**
 ```bash
-# Run the analysis
+# Run the enrichment pipeline
+npm run analyze
+
+# Equivalent to:
 npx tsx src/analyze.ts
 
 # Exit codes:
@@ -585,28 +1173,124 @@ npx tsx src/analyze.ts
 #   1 = Some parcels failed (but pipeline completed)
 ```
 
-### Output
-Results written to `output/` directory:
-- `portsmouth_properties_full.json` - Enriched data
-- `enrichment_errors.json` - Error details
-- `analysis_summary.json` - Statistics
+**Output Files:**
+- `output/portsmouth_properties_full.json` - Enriched parcel data
+- `output/enrichment_errors.json` - Error details
+- `output/analysis_summary.json` - Processing statistics
+
+**Duration:** Varies based on parcel count and API response times (typically 5-15 minutes for ~5,000 parcels)
+
+### Phase 2: Report Generation
+
+**Command:** `npm run report [options]`
+
+**Purpose:** Analyze enriched data and generate reports
+
+**Prerequisites:**
+```bash
+# Must have run Phase 1 (data enrichment) first
+# Requires output/portsmouth_properties_full.json
+```
+
+**Execution Options:**
+
+```bash
+# Generate all reports (default)
+npm run report
+
+# Generate infrastructure burden report only
+npm run report:infrastructure
+
+# Generate violations report only
+npm run report:violations
+```
+
+**Output Files:**
+
+**All Reports:**
+- `output/Portsmouth_Zoning_Report_[timestamp].txt`
+- `output/violations_analysis.json`
+- `output/Portsmouth_Infrastructure_Burden_[timestamp].txt`
+- `output/infrastructure_metrics.json`
+
+**Infrastructure Only:**
+- `output/Portsmouth_Infrastructure_Burden_[timestamp].txt`
+- `output/infrastructure_metrics.json`
+
+**Violations Only:**
+- `output/Portsmouth_Zoning_Report_[timestamp].txt`
+- `output/violations_analysis.json`
+
+**Duration:** Fast (~1-5 seconds) - no API calls, works with cached data
+
+### Complete Workflow Example
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Run data enrichment (fetches from APIs)
+npm run analyze
+
+# 3. Generate reports (analyzes cached data)
+npm run report
+
+# 4. Reports are now available in output/ directory
+```
 
 ### Testing
+
 ```bash
 # Run all tests
 npm test
 
-# Current test coverage: 98 tests passing
+# Test with UI
+npm run test:ui
+
+# Current test coverage: 98+ tests passing
 # - CSV parser: 10 tests
 # - Map Geo client: 17 tests
 # - VGSI client: 20 tests
 # - Validators: 51 tests
+# - Analysis modules: 15+ tests
 # - Pipeline: Integration tests
 # - Output writer: 8 tests
 ```
 
+### Type Checking
+
+```bash
+# Type check all TypeScript files
+npm run typecheck
+```
+
 ---
 
-**Document Version:** 2.0
-**Implementation Version:** TypeScript Migration (ralph/typescript-migration branch)
-**Last Reviewed:** 2026-02-16
+## Migration History
+
+### Previous Python Implementation (DEPRECATED)
+
+This project was originally implemented in Python. The Python scripts have been **archived** to the `deprecated/` directory and **should not be used** for new analysis work.
+
+**Reasons for TypeScript Migration:**
+- Better type safety with strict TypeScript checking
+- Faster development with modern tooling
+- Comprehensive test coverage (98+ tests)
+- Easier maintenance and extensibility
+- Superior error handling and validation
+- Report generation system separate from data collection
+
+**Legacy Files:**
+- `deprecated/*.py` - Original Python scripts (DO NOT USE)
+- `deprecated/README.md` - Migration details and deprecation notice
+
+**Current Implementation:**
+- All active development uses TypeScript (`src/` directory)
+- See [README.md](../README.md) for current usage instructions
+- This methodology document reflects the TypeScript implementation only
+
+---
+
+**Document Version:** 3.0
+**Implementation Version:** TypeScript with Report Generation
+**Last Reviewed:** 2026-02-18
